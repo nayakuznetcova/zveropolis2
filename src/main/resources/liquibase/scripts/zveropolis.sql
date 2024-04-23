@@ -17,6 +17,7 @@ create table pet
     name                       varchar(255),
     age                        int,
     with_limited_opportunities boolean,
+    is_adopted                 boolean,
     type_of_animal             varchar(255),
     user_id                    bigint,
     foreign key (user_id) references users (chat_id)

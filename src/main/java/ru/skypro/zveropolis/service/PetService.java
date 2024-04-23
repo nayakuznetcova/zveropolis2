@@ -70,9 +70,9 @@ public class PetService {
      * @return список питомцев
      */
 
-//    public List<Pet> getPetsAdopted(boolean isAdopted, TypeOfAnimal typeOfAnimal) {
-//        return petRepository.findAllByIsAdoptedAndTypeOfAnimal(isAdopted,typeOfAnimal);
-//    }
+    public List<Pet> getPetsAdopted(boolean isAdopted, TypeOfAnimal typeOfAnimal) {
+        return petRepository.findAllByIsAdoptedAndTypeOfAnimal(isAdopted,typeOfAnimal);
+    }
 
     /**
      * Повзоляет получить список питомцев, с сортировкой по виду животного

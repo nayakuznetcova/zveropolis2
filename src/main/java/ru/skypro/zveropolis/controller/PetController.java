@@ -83,18 +83,18 @@ public class PetController {
         }
         return ResponseEntity.ok(petService.getListOf(typeOfAnimal));
     }
-//    @Operation(
-//
-//            summary = "Получение списка питомцев под опекой"
-//    )
-//
-//    @GetMapping("/getListOfAdopted/{typeOfAnimal}")
-//    public ResponseEntity<List<Pet>> getListOfAdoptedPets(boolean isAdopted, @PathVariable TypeOfAnimal typeOfAnimal) {
-//        if (typeOfAnimal == null) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//        return ResponseEntity.ok(petService.getPetsAdopted(isAdopted,typeOfAnimal));
-//    }
+    @Operation(
+
+            summary = "Получение списка питомцев под опекой"
+    )
+
+    @GetMapping("/getListOfAdopted/{typeOfAnimal}")
+    public ResponseEntity<List<Pet>> getListOfAdoptedPets(boolean isAdopted, @PathVariable TypeOfAnimal typeOfAnimal) {
+        if (typeOfAnimal == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(petService.getPetsAdopted(isAdopted,typeOfAnimal));
+    }
     @Operation(
             summary = "Получение списка всех питомцев"
     )
