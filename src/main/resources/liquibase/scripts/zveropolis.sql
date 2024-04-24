@@ -25,13 +25,9 @@ create table pet
 --changeset kuznetsovanaya:create_report
 create table report
 (
-    id                   bigserial primary key,
-    diet                 text,
-    health_and_addiction text,
-    behavior             text,
---     user_id              bigint not null,
---     foreign key (user_id) references users (chat_id),
-    pet_id               bigint,
+    id          bigserial primary key,
+    description text,
+    pet_id      bigint,
     foreign key (pet_id) references pet (id)
 );
 
@@ -41,7 +37,7 @@ create table photo
     id         bigserial primary key,
     file_size  bigint,
     media_type text,
-    data       bytea,
+    path       text,
     report_id  bigint,
     foreign key (report_id) references report (id)
 );
