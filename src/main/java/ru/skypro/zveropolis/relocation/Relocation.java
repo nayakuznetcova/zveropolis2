@@ -17,7 +17,7 @@ public class Relocation {
 
 
     public void doCrossroads(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage()) {
             Long chatId = update.getMessage().getChatId();
             subscriberRepository.checkUser(chatId);
             State state = getState(chatId);
