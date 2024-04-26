@@ -43,9 +43,7 @@ public class CatMenu implements State{
     public void execute(Update update) {
         if(update.hasCallbackQuery()){
             sendMessageAtCallback(update);
-
         } else if (update.hasMessage() && update.getMessage().hasText()) {
-            //sendMessageAtText(update);
         }
     }
 

@@ -36,6 +36,8 @@ public class StartMenu implements State {
             sendMessageAtCallback(update);
         } else if (update.hasMessage() && update.getMessage().hasText() && update.getMessage().getText().equals("/start")) {
             sendMessageAtText(update);
+        } else {
+            telegramBotSendMessage.sendMessage(createSendMessage("Start menu", update.getMessage().getChatId()));
         }
     }
 

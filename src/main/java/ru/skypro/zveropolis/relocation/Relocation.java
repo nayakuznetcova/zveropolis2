@@ -12,6 +12,7 @@ public class Relocation {
     private final CatMenu catMenu;
     private final DogMenu dogMenu;
     private final ReportCatMenu reportCatMenu;
+    private final ReportDogMenu reportDogMenu;
 
     private final SubscriberRepository subscriberRepository;
 
@@ -45,8 +46,11 @@ public class Relocation {
             case REPORT_CAT_MENU -> {
                 return reportCatMenu;
             }
+            case REPORT_DOG_MENU -> {
+                return reportDogMenu;
+            }
         }
         throw new RuntimeException();
-        //todo исправить
+        //todo исправить в случае нового функционала и добавить новый кейс
     }
 }
