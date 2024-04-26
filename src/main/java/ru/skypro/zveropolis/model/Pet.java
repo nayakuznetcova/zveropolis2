@@ -16,6 +16,7 @@ public class Pet {
     private String name;
     private int age;
     private boolean withLimitedOpportunities;
+    private int timer;
     @Enumerated(EnumType.STRING)
     private TypeOfAnimal typeOfAnimal;
     @ManyToOne

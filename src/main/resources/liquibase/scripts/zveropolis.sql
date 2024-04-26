@@ -18,6 +18,7 @@ create table pet
     age                        int,
     with_limited_opportunities boolean,
     type_of_animal             varchar(255),
+    timer                      integer,
     user_id                    bigint,
     foreign key (user_id) references users (chat_id)
 );
