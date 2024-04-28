@@ -1,6 +1,7 @@
 package ru.skypro.zveropolis.repository;
 
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.skypro.zveropolis.model.Users;
 import ru.skypro.zveropolis.relocation.StateBot;
 
@@ -17,14 +18,17 @@ public class SubscriberRepository {
         this.userRepository = userRepository;
     }
 
-    public boolean checkUser(Long chatId) {
-        if (stateMap.containsKey(chatId)) {
+    public boolean checkUser(Message message){
+        Long chatId = message.getChatId();
+        if(stateMap.containsKey(chatId)){
             return true;
         }
         Users users = new Users();
         users.setChatId(chatId);
+        users.setFirstName(message.getChat().getFirstName());
+        users.setUsername(message.getChat().getUserName());
         userRepository.save(users);
-        stateMap.put(chatId, StateBot.START_MENU);
+        stateMap.put(chatId,StateBot.START_MENU);
         return false;
     }
 

@@ -2,6 +2,7 @@ package ru.skypro.zveropolis.relocation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.skypro.zveropolis.repository.SubscriberRepository;
 
@@ -13,19 +14,21 @@ public class Relocation {
     private final DogMenu dogMenu;
     private final ReportCatMenu reportCatMenu;
     private final ReportDogMenu reportDogMenu;
-
+    private final CallVolunteerMenu callVolunteerMenu;
     private final SubscriberRepository subscriberRepository;
 
 
     public void doCrossroads(Update update) {
         if (update.hasMessage()) {
-            Long chatId = update.getMessage().getChatId();
-            subscriberRepository.checkUser(chatId);
+            Message message = update.getMessage();
+            Long chatId = message.getChatId();
+            subscriberRepository.checkUser(message);
             State state = getState(chatId);
             state.execute(update);
         } else if (update.hasCallbackQuery()) {
-            Long chatId = update.getCallbackQuery().getMessage().getChatId();
-            subscriberRepository.checkUser(chatId);
+            Message message = update.getCallbackQuery().getMessage();
+            Long chatId = message.getChatId();
+            subscriberRepository.checkUser(message);
             State state = getState(chatId);
             state.execute(update);
         }
@@ -48,6 +51,9 @@ public class Relocation {
             }
             case REPORT_DOG_MENU -> {
                 return reportDogMenu;
+            }
+            case CALL_VOLUNTEER_MENU -> {
+                return callVolunteerMenu;
             }
         }
         throw new RuntimeException();

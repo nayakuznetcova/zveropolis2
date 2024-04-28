@@ -121,7 +121,9 @@ public class CatMenu implements State{
                 state.execute(update);
             }
             case CALL_VOLUNTEER -> {
-
+                subscriberRepository.putStateBot(chatId, StateBot.CALL_VOLUNTEER_MENU);
+                State state = relocation.getState(chatId);
+                state.execute(update);
             }
             case BACK -> {
                 subscriberRepository.putStateBot(chatId, StateBot.START_MENU);
