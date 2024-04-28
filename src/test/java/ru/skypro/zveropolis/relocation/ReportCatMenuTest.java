@@ -12,6 +12,8 @@ import ru.skypro.zveropolis.repository.PhotoRepository;
 import ru.skypro.zveropolis.repository.ReportRepository;
 import ru.skypro.zveropolis.repository.SubscriberRepository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class ReportCatMenuTest {
@@ -37,7 +39,7 @@ public class ReportCatMenuTest {
 
         // Задаем ожидаемое поведение для метода getChatId() у макета Message
         when(message.getChatId()).thenReturn(123L);
-        when(message.getCaption()).thenReturn("Some caption");
+        when(message.getCaption()).thenReturn(null);
 
         // Создаем макет объекта TelegramBotSendMessage
         TelegramBotSendMessage telegramBotSendMessageMock = mock(TelegramBotSendMessage.class);
@@ -89,5 +91,36 @@ public class ReportCatMenuTest {
         // Проверка
         verify(subscriberRepository).putStateBot(123L, StateBot.CAT_MENU);
         verify(state).execute(update);
+    }
+
+    @Test
+    public void testCreateSendMessage() {
+
+        String text = "Тестовое сообщение";
+        Long chatId = 123L;
+
+        ReportCatMenu reportCatMenu = new ReportCatMenu(mock(SubscriberRepository.class), mock(Relocation.class), mock(TelegramBotSendMessage.class),
+                mock(ReportRepository.class), mock(PhotoRepository.class), mock(PetRepository.class));
+
+        SendMessage sendMessage = reportCatMenu.createSendMessage(text, chatId);
+
+        assertEquals(text, sendMessage.getText());
+        assertEquals(chatId, sendMessage.getChatId());
+        assertNotNull(sendMessage.getReplyMarkup());
+    }
+
+    @Test
+    public void testCreateSendMessageNotKeyboard() {
+
+        String text = "Тестовое сообщение";
+        Long chatId = 123L;
+
+        ReportCatMenu reportCatMenu = new ReportCatMenu(mock(SubscriberRepository.class), mock(Relocation.class), mock(TelegramBotSendMessage.class),
+                mock(ReportRepository.class), mock(PhotoRepository.class), mock(PetRepository.class));
+
+        SendMessage sendMessage = reportCatMenu.createSendMessageNotKeyboard(text, chatId);
+
+        assertEquals(text, sendMessage.getText());
+        assertEquals(chatId, sendMessage.getChatId());
     }
 }
