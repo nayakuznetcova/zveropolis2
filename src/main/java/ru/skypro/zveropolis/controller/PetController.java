@@ -11,6 +11,7 @@ import ru.skypro.zveropolis.model.TypeOfAnimal;
 import ru.skypro.zveropolis.service.PetService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/pet")
@@ -41,8 +42,8 @@ public class PetController {
     )
 
     @GetMapping("/getInfoPet/{id}")
-    public ResponseEntity<Pet> getPet(@PathVariable long id) {
-        Pet petToFind = petService.getPetById(id);
+    public ResponseEntity<Optional<Pet>> getPet(@PathVariable long id) {
+        Optional<Pet> petToFind = petService.getPetById(id);
         if (petToFind == null) {
             return ResponseEntity.notFound().build();
         }
@@ -83,18 +84,18 @@ public class PetController {
         }
         return ResponseEntity.ok(petService.getListOf(typeOfAnimal));
     }
-//    @Operation(
-//
-//            summary = "Получение списка питомцев под опекой"
-//    )
-//
-//    @GetMapping("/getListOfAdopted/{typeOfAnimal}")
-//    public ResponseEntity<List<Pet>> getListOfAdoptedPets(boolean isAdopted, @PathVariable TypeOfAnimal typeOfAnimal) {
-//        if (typeOfAnimal == null) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//        return ResponseEntity.ok(petService.getPetsAdopted(isAdopted,typeOfAnimal));
-//    }
+    @Operation(
+
+            summary = "Получение списка питомцев под опекой"
+    )
+
+    @GetMapping("/getListOfAdopted/{typeOfAnimal}")
+    public ResponseEntity<List<Pet>> getListOfAdoptedPets(boolean isAdopted, @PathVariable TypeOfAnimal typeOfAnimal) {
+        if (typeOfAnimal == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(petService.getPetsAdopted(isAdopted,typeOfAnimal));
+    }
     @Operation(
             summary = "Получение списка всех питомцев"
     )

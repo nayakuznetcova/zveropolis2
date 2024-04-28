@@ -15,7 +15,7 @@ values ('Вас приветствует приют Зверополис. Пож
         'CAT')
 
 --changeset kuznetsovanaya:insert_dog_shelter
-    insert into shelter (greeting, info, dating_rules, adoption_documents, transportation_recommendations,
+insert into shelter (greeting, info, dating_rules, adoption_documents, transportation_recommendations,
                          recommendations_arranging_baby, recommendations_arranging_adult,
                          recommendations_arranging_with_features, type_of_animal)
 values ('Вас приветствует приют Зверополис. Пожалуйста выберите интересующее Вас действие:',

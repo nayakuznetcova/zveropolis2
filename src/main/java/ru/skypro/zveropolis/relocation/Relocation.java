@@ -11,12 +11,14 @@ public class Relocation {
     private final StartMenu startMenu;
     private final CatMenu catMenu;
     private final DogMenu dogMenu;
+    private final ReportCatMenu reportCatMenu;
+    private final ReportDogMenu reportDogMenu;
 
     private final SubscriberRepository subscriberRepository;
 
 
     public void doCrossroads(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage()) {
             Long chatId = update.getMessage().getChatId();
             subscriberRepository.checkUser(chatId);
             State state = getState(chatId);
@@ -41,8 +43,14 @@ public class Relocation {
             case DOG_MENU -> {
                 return dogMenu;
             }
+            case REPORT_CAT_MENU -> {
+                return reportCatMenu;
+            }
+            case REPORT_DOG_MENU -> {
+                return reportDogMenu;
+            }
         }
         throw new RuntimeException();
-        //todo исправить
+        //todo исправить в случае нового функционала и добавить новый кейс
     }
 }

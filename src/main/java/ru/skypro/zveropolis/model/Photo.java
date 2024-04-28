@@ -12,7 +12,7 @@ public class Photo {
     private Long id;
     private Long fileSize;
     private String mediaType;
-    private byte[] data;
+    private String path;
     @ManyToOne
     @JoinColumn(name = "report_id")
     private Report report;
