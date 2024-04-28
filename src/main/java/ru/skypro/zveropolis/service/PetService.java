@@ -9,6 +9,7 @@ import ru.skypro.zveropolis.model.TypeOfAnimal;
 import ru.skypro.zveropolis.repository.PetRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Data
@@ -27,11 +28,12 @@ public class PetService {
 
     /**
      * Позволяет получить информацию о питомце
+     *
      * @param id идентификатор питомца
      * @return Optional <Pet>
      */
 
-    public Pet getPetById(long id) {
+    public Optional<Pet> getPetById(long id) {
         return petRepository.findById(id);
     }
 
@@ -70,9 +72,9 @@ public class PetService {
      * @return список питомцев
      */
 
-//    public List<Pet> getPetsAdopted(boolean isAdopted, TypeOfAnimal typeOfAnimal) {
-//        return petRepository.findAllByIsAdoptedAndTypeOfAnimal(isAdopted,typeOfAnimal);
-//    }
+    public List<Pet> getPetsAdopted(boolean isAdopted, TypeOfAnimal typeOfAnimal) {
+        return petRepository.findAllByIsAdoptedAndTypeOfAnimal(isAdopted,typeOfAnimal);
+    }
 
     /**
      * Повзоляет получить список питомцев, с сортировкой по виду животного
