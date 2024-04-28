@@ -51,6 +51,7 @@ public class ReportCatMenu implements State{
 
         }
     }
+
     private void textAndPhoto(Update update){
         Long chatId = update.getMessage().getChatId();
         List<PhotoSize> photoSizes = update.getMessage().getPhoto();
@@ -79,7 +80,6 @@ public class ReportCatMenu implements State{
 
         }
         photoRepository.save(photo);
-
     }
 
     @Override
@@ -101,6 +101,7 @@ public class ReportCatMenu implements State{
             }
         }
     }
+
     private SendMessage createSendMessage(String text, Long chatId){
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
@@ -108,6 +109,7 @@ public class ReportCatMenu implements State{
         createSendMessage.setReplyMarkup(createInlineKeyboardMarkup());
         return createSendMessage;
     }
+
     private SendMessage createSendMessageNotKeyboard(String text, Long chatId){
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
