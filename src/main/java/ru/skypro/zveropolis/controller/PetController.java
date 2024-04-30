@@ -1,6 +1,9 @@
 package ru.skypro.zveropolis.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import ru.skypro.zveropolis.model.Users;
 import ru.skypro.zveropolis.service.PetService;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -22,6 +26,7 @@ public class PetController {
 
     @Operation(
             summary = "Добавление питомца в приют"
+
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -92,8 +97,8 @@ public class PetController {
 
     @GetMapping("/getListOfAdopted/{typeOfAnimal}")
     public ResponseEntity<List<Pet>> getListOfAdoptedPets(boolean isAdopted, @PathVariable TypeOfAnimal typeOfAnimal) {
-        if (typeOfAnimal == null) {
-            return ResponseEntity.badRequest().build();
+        if (petService.getPetsAdopted(isAdopted,typeOfAnimal).isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(petService.getPetsAdopted(isAdopted,typeOfAnimal));
     }
@@ -109,14 +114,15 @@ public class PetController {
         return ResponseEntity.ok(petService.getAll());
     }
     @Operation(
-            summary = "Взять животное под опеку"
+            summary = "Отправить животное под опеку"
     )
     @PutMapping ("/adoptPet")
-    public ResponseEntity <Pet> adoptPet (@RequestBody Pet pet, @RequestBody Users user) {
-        if (petService.petToAdopt(pet,user)==null) {
+    public ResponseEntity <Pet> adoptPet (long id, @RequestBody Users user) {
+
+        if (petService.petToAdopt(id,user)==null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(petService.petToAdopt(pet,user));
+        return ResponseEntity.ok(petService.petToAdopt(id,user));
     }
 
 }

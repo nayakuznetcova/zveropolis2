@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 @Data
@@ -17,5 +19,5 @@ public class Users {
     private boolean isVolunteer;
 //    @OneToMany
 //    @JoinColumn(name = "pet_id")
-//    private List<Pet> pet;
+//    private Pet pet;
 }

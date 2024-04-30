@@ -98,10 +98,11 @@ public class PetService {
 
     /**
      * Позволяет взять под опеку питомца
-
+     * @param id идентификатор животного
      * @return обновленная информация о питомце
      */
-    public Pet petToAdopt(Pet pet, Users user) {
+    public Pet petToAdopt(long id, Users user) {
+        Pet pet = petRepository.findById(id).get();
         pet.setAdopted(true);
         pet.setUsers(user);
         return petRepository.save(pet);

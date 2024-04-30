@@ -30,6 +30,7 @@ create table report
     id          bigserial primary key,
     description text,
     pet_id      bigint,
+    is_correct  boolean,
     foreign key (pet_id) references pet (id)
 );
 

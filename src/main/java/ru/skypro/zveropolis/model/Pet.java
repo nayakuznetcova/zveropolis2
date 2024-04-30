@@ -20,7 +20,7 @@ public class Pet {
     private int timer;
     @Enumerated(EnumType.STRING)
     private TypeOfAnimal typeOfAnimal;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private Users users;
 }
