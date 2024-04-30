@@ -1,6 +1,7 @@
 package ru.skypro.zveropolis.model;
 
 import lombok.Data;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import javax.persistence.*;
 
@@ -20,4 +21,8 @@ public class Shelter {
     private String recommendationsArrangingWithFeatures;
     @Enumerated(EnumType.STRING)
     private TypeOfAnimal typeOfAnimal;
+
+    public Shelter(SendMessage sendMessage) {
+
+    }
 }
