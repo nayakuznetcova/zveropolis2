@@ -18,8 +18,6 @@ public class PetService {
     @Autowired
     private final PetRepository petRepository;
 
-    @Autowired
-    private final UserService userService;
 
     /**
      * Сохраняет заданную сущность.

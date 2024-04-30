@@ -11,7 +11,7 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-    private boolean isCorrect;
+    private boolean isChecked;
 //    private String healthAndAddiction;
 //    private String behavior;
 //    @OneToMany

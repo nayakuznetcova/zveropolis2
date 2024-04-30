@@ -106,8 +106,9 @@ class PetServiceTest {
     @Test
     void adoptPetCorrect() {
         Mockito.when(repository.save(any(Pet.class))).thenReturn(PET_1);
-        out.petToAdopt(PET_1, USER_1);
+        Mockito.when(repository.findById(1L)).thenReturn(Optional.ofNullable(PET_1));
+        out.petToAdopt(1L, USER_1);
         Mockito.verify(repository, Mockito.times(1)).save(PET_1);
-        assertEquals(PET_1,out.petToAdopt(PET_1,USER_1));
+        assertEquals(PET_1,out.petToAdopt(1L,USER_1));
     }
 }

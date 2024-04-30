@@ -8,9 +8,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.skypro.zveropolis.model.Pet;
+import ru.skypro.zveropolis.model.TypeOfAnimal;
 import ru.skypro.zveropolis.model.Users;
+import ru.skypro.zveropolis.service.PetService;
 import ru.skypro.zveropolis.service.UserService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -19,6 +23,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     @Operation(
             summary = "Добавление волонтера"
@@ -45,6 +50,7 @@ public class UserController {
         }
         return ResponseEntity.badRequest().build();
     }
+
 
     @Operation(
             summary = "Получение информации о волонтере"

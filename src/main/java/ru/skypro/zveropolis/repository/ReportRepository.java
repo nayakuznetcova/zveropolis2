@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface ReportRepository extends JpaRepository<Report, Long> {
     Optional<Report> findByPet(Pet pet);
 
-    List<Report> findAllByIsCorrect(boolean isCorrect);
+    List<Report> findAllByIsChecked(boolean isChecked);
 }

@@ -64,8 +64,8 @@ public class ReportController {
 
     )
     @GetMapping("/getReportsForCheck")
-    public ResponseEntity<List <Report>> getReportsForCheck(boolean isCorrect) {
-       List<Report> report = reportService.getAlLReportsForCheck(isCorrect);
+    public ResponseEntity<List <Report>> getReportsForCheck(boolean isChecked) {
+       List<Report> report = reportService.getAlLReportsForCheck(isChecked);
         if (report.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

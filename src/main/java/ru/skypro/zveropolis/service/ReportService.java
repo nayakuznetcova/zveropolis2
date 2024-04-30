@@ -71,7 +71,7 @@ public class ReportService {
      * @return отчет
      */
     public Report checkReportByVolunteer(Report report) {
-        report.setCorrect(true);
+        report.setChecked(true);
         return reportRepository.save(report);
     }
     /**
@@ -79,8 +79,8 @@ public class ReportService {
      *
      * @return отчет
      */
-    public List<Report> getAlLReportsForCheck(boolean isCorrect) {
-        return reportRepository.findAllByIsCorrect(isCorrect);
+    public List<Report> getAlLReportsForCheck(boolean isChecked) {
+        return reportRepository.findAllByIsChecked(isChecked);
     }
 
     }

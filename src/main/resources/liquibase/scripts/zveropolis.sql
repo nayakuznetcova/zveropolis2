@@ -8,6 +8,7 @@ create table users
     username     varchar(255),
     phone_number varchar(12),
     is_volunteer boolean default false
+--    foreign key (pet_id) references pet (id)
 );
 
 --changeset kuznetsovanaya:create_pet
@@ -30,7 +31,7 @@ create table report
     id          bigserial primary key,
     description text,
     pet_id      bigint,
-    is_correct  boolean,
+    is_checked  boolean,
     foreign key (pet_id) references pet (id)
 );
 

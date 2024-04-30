@@ -50,7 +50,7 @@ public class PetController {
     @GetMapping("/getInfoPet/{id}")
     public ResponseEntity<Optional<Pet>> getPet(@PathVariable long id) {
         Optional<Pet> petToFind = petService.getPetById(id);
-        if (petToFind == null) {
+        if (petToFind.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(petService.getPetById(id));
@@ -116,8 +116,8 @@ public class PetController {
     @Operation(
             summary = "Отправить животное под опеку"
     )
-    @PutMapping ("/adoptPet")
-    public ResponseEntity <Pet> adoptPet (long id, @RequestBody Users user) {
+    @PutMapping ("/adoptPet/{id}")
+    public ResponseEntity <Pet> adoptPet (@PathVariable long id, @RequestBody Users user) {
 
         if (petService.petToAdopt(id,user)==null) {
             return ResponseEntity.notFound().build();
