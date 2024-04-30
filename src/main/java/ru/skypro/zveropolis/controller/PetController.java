@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.zveropolis.model.Pet;
 import ru.skypro.zveropolis.model.TypeOfAnimal;
+import ru.skypro.zveropolis.model.Users;
 import ru.skypro.zveropolis.service.PetService;
 
 import java.util.List;
@@ -107,4 +108,15 @@ public class PetController {
         }
         return ResponseEntity.ok(petService.getAll());
     }
+    @Operation(
+            summary = "Взять животное под опеку"
+    )
+    @PutMapping ("/adoptPet")
+    public ResponseEntity <Pet> adoptPet (@RequestBody Pet pet, @RequestBody Users user) {
+        if (petService.petToAdopt(pet,user)==null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(petService.petToAdopt(pet,user));
+    }
+
 }
