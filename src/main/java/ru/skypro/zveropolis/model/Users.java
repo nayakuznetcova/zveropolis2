@@ -1,6 +1,7 @@
 package ru.skypro.zveropolis.model;
 
 import lombok.Data;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,6 +16,9 @@ public class Users {
     private String username;
     private String phoneNumber;
     private boolean isVolunteer;
+
+    public Users(SendMessage sendMessage) {
+    }
 //    @OneToMany
 //    @JoinColumn(name = "pet_id")
 //    private List<Pet> pet;

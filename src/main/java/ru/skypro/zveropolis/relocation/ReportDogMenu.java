@@ -6,12 +6,10 @@ import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.skypro.zveropolis.TelegramBotSendMessage;
-import ru.skypro.zveropolis.model.Pet;
-import ru.skypro.zveropolis.model.Photo;
-import ru.skypro.zveropolis.model.Report;
-import ru.skypro.zveropolis.model.Shelter;
+import ru.skypro.zveropolis.model.*;
 import ru.skypro.zveropolis.repository.PetRepository;
 import ru.skypro.zveropolis.repository.PhotoRepository;
 import ru.skypro.zveropolis.repository.ReportRepository;
@@ -173,6 +171,6 @@ public class ReportDogMenu implements State{
 
     public void warning2dayVolonteer(Update update){
         Long chatId = update.getMessage().getChatId();
-        if (!update.getMessage().hasText()) new Shelter(createSendMessage("Дорогой волонтёр! Усыновитель не присылает отчет о состоянии животного более 2 дней. Обратитесь к усыновителю за обратной связью!", chatId));
+        if (!update.getMessage().hasText()) new Users(createSendMessage("Дорогой волонтёр! Усыновитель не присылает отчет о состоянии животного более 2 дней. Обратитесь к усыновителю за обратной связью!", chatId));
     }
 }
