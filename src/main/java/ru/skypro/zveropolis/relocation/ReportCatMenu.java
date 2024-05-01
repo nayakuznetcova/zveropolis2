@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ReportCatMenu implements State{
+public class ReportCatMenu implements State {
     private final SubscriberRepository subscriberRepository;
     private final Relocation relocation;
     private final TelegramBotSendMessage telegramBotSendMessage;
@@ -41,7 +41,7 @@ public class ReportCatMenu implements State{
 
     @Override
     public void execute(Update update) {
-        if (update.hasCallbackQuery()){
+        if (update.hasCallbackQuery()) {
             sendMessageAtCallback(update);
         } else if (update.getMessage().hasPhoto()) {
             textAndPhoto(update);
@@ -50,7 +50,7 @@ public class ReportCatMenu implements State{
         }
     }
 
-    private void textAndPhoto(Update update){
+    private void textAndPhoto(Update update) {
         Long chatId = update.getMessage().getChatId();
         List<PhotoSize> photoSizes = update.getMessage().getPhoto();
         Photo photo = new Photo();
@@ -58,7 +58,7 @@ public class ReportCatMenu implements State{
         GetFile getFile = new GetFile(photoSize.getFileId());
         File file = telegramBotSendMessage.sendFile(getFile, UUID.randomUUID().toString());
         photo.setPath(file.getPath());
-        if(update.getMessage().getCaption() == null){
+        if (update.getMessage().getCaption() == null) {
             SendMessage sendMessageNotKeyboard = createSendMessageNotKeyboard("добавьте подпись", chatId);
             telegramBotSendMessage.sendMessage(sendMessageNotKeyboard);
         } else {
@@ -85,10 +85,10 @@ public class ReportCatMenu implements State{
         return null;
     }
 
-    public void sendMessageAtCallback(Update update){
+    public void sendMessageAtCallback(Update update) {
         Long chatId = update.getCallbackQuery().getMessage().getChatId();
         String data = update.getCallbackQuery().getData();
-        switch (data){
+        switch (data) {
             case BACK_CAT_REPORT -> {
                 subscriberRepository.putStateBot(chatId, StateBot.CAT_MENU);
                 State state = relocation.getState(chatId);
@@ -100,7 +100,7 @@ public class ReportCatMenu implements State{
         }
     }
 
-    protected SendMessage createSendMessage(String text, Long chatId){
+    protected SendMessage createSendMessage(String text, Long chatId) {
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);
@@ -108,7 +108,7 @@ public class ReportCatMenu implements State{
         return createSendMessage;
     }
 
-    private SendMessage createSendMessageNotKeyboard(String text, Long chatId){
+    private SendMessage createSendMessageNotKeyboard(String text, Long chatId) {
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);
@@ -165,5 +165,11 @@ public class ReportCatMenu implements State{
         Long chatId = update.getMessage().getChatId();
         SendMessage sendMessage = createSendMessage("Оставьте свой номер телефона, волонтер свяжется с вами.", chatId);
         telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    public class SchedulerConfig {
+        void warning2day() {
+            return;
+        }
     }
 }

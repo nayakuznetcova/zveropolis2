@@ -163,4 +163,9 @@ public class ReportDogMenu implements State{
         SendMessage sendMessage = createSendMessage("Оставьте свой номер телефона, волонтер свяжется с вами.", chatId);
         telegramBotSendMessage.sendMessage(sendMessage);
     }
+    public class SchedulerConfig{
+        void warning2day(){
+            return;
+        }
+    }
 }
