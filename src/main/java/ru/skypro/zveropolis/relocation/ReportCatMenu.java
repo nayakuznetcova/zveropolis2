@@ -100,7 +100,7 @@ public class ReportCatMenu implements State{
         }
     }
 
-    private SendMessage createSendMessage(String text, Long chatId){
+    protected SendMessage createSendMessage(String text, Long chatId){
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);
@@ -165,16 +165,5 @@ public class ReportCatMenu implements State{
         Long chatId = update.getMessage().getChatId();
         SendMessage sendMessage = createSendMessage("Оставьте свой номер телефона, волонтер свяжется с вами.", chatId);
         telegramBotSendMessage.sendMessage(sendMessage);
-    }
-
-    public void warning2day(Update update){
-        Long chatId = update.getMessage().getChatId();
-        SendMessage sendMessage = createSendMessage("Дорогой усыновитель! пришлите отчет о состоянии животного. Напоминаем: отчет отправляется ежедневно!", chatId);
-        telegramBotSendMessage.sendMessage(sendMessage);
-    }
-
-    public void warning2dayVolonteer(Update update){
-        Long chatId = update.getMessage().getChatId();
-        if (!update.getMessage().hasText()) new Users(createSendMessage("Дорогой волонтёр! Усыновитель не присылает отчет о состоянии животного более 2 дней. Обратитесь к усыновителю за обратной связью!", chatId));
     }
 }
