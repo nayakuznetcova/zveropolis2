@@ -1,7 +1,10 @@
 package ru.skypro.zveropolis.relocation;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -27,35 +30,36 @@ public class ReportCatMenuTest {
     @Mock
     private Relocation relocation;
 
-    @Mock
+    @InjectMocks
     private ReportCatMenu reportCatMenu;
 
-    @Test
-    public void testTextAndPhoto() {
-        // Подготовка макетов объектов
-        Update update = mock(Update.class);
-        Message message = mock(Message.class);
-        when(update.getMessage()).thenReturn(message); // Устанавливаем ожидаемое поведение для метода getMessage()
-
-        // Задаем ожидаемое поведение для метода getChatId() у макета Message
-        when(message.getChatId()).thenReturn(123L);
-        when(message.getCaption()).thenReturn(null);
-
-        // Создаем макет объекта TelegramBotSendMessage
-        TelegramBotSendMessage telegramBotSendMessageMock = mock(TelegramBotSendMessage.class);
-
-        // Создаем экземпляр класса ReportCatMenu с макетами объектов в качестве зависимостей
-        ReportCatMenu reportCatMenu = new ReportCatMenu(
-                mock(SubscriberRepository.class),
-                mock(Relocation.class),
-                telegramBotSendMessageMock,
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        reportCatMenu = new ReportCatMenu(
+                subscriberRepository,
+                relocation,
+                telegramBotSendMessage,
                 mock(ReportRepository.class),
                 mock(PhotoRepository.class),
                 mock(PetRepository.class)
         );
+    }
 
-        // Проверяем, что метод sendMessage был вызван один раз у макета telegramBotSendMessageMock с любым аргументом SendMessage
-        verify(telegramBotSendMessageMock, times(1)).sendMessage(any(SendMessage.class));
+    @Test
+    public void testTextAndPhoto() {
+
+        Update update = mock(Update.class);
+        Message message = mock(Message.class);
+        when(update.getMessage()).thenReturn(message);
+
+        when(message.getChatId()).thenReturn(123L);
+        when(message.getCaption()).thenReturn(null);
+
+        // Действие
+        reportCatMenu.textAndPhoto(update);
+
+        verify(telegramBotSendMessage, times(1)).sendMessage(any(SendMessage.class));
     }
 
     @Test
@@ -74,16 +78,6 @@ public class ReportCatMenuTest {
 
         // Установка ожидаемого поведения для метода getState
         when(relocation.getState(123L)).thenReturn(state);
-
-        // Создание объекта класса, который тестируем
-        ReportCatMenu reportCatMenu = new ReportCatMenu(
-                subscriberRepository,
-                relocation,
-                telegramBotSendMessage,
-                mock(ReportRepository.class),
-                mock(PhotoRepository.class),
-                mock(PetRepository.class)
-        );
 
         // Действие
         reportCatMenu.sendMessageAtCallback(update);
@@ -122,5 +116,111 @@ public class ReportCatMenuTest {
 
         assertEquals(text, sendMessage.getText());
         assertEquals(chatId, sendMessage.getChatId());
+    }
+
+    @Test
+    public void testHandleDailyReportForm_PhotoWithoutText() {
+        Update update = mock(Update.class);
+        Message message = mock(Message.class);
+        when(update.getMessage()).thenReturn(message);
+        when(message.hasPhoto()).thenReturn(true);
+        when(message.hasText()).thenReturn(false);
+
+        reportCatMenu.handleDailyReportForm(update);
+
+        verify(telegramBotSendMessage).sendMessage(any());
+    }
+
+    @Test
+    public void testHandleDailyReportForm_TextWithoutPhoto() {
+        Update update = mock(Update.class);
+        Message message = mock(Message.class);
+        when(update.getMessage()).thenReturn(message);
+        when(message.hasPhoto()).thenReturn(false);
+        when(message.hasText()).thenReturn(true);
+
+        reportCatMenu.handleDailyReportForm(update);
+
+        verify(telegramBotSendMessage).sendMessage(any());
+    }
+
+    @Test
+    public void testHandleDailyReportForm_IncompleteReport() {
+        Update update = mock(Update.class);
+        Message message = mock(Message.class);
+        when(update.getMessage()).thenReturn(message);
+        when(message.hasPhoto()).thenReturn(true);
+        when(message.hasText()).thenReturn(true);
+
+        reportCatMenu.handleDailyReportForm(update);
+
+        verify(telegramBotSendMessage).sendMessage(any());
+    }
+
+    @Test
+    public void testSendMessageAtCallback() {
+        Update update = mock(Update.class);
+        CallbackQuery callbackQuery = mock(CallbackQuery.class);
+        Message message = mock(Message.class);
+        when(update.getCallbackQuery()).thenReturn(callbackQuery);
+        when(callbackQuery.getMessage()).thenReturn(message);
+        when(message.getChatId()).thenReturn(123L);
+        when(callbackQuery.getData()).thenReturn("BACK_CAT_REPORT");
+
+        State state = mock(State.class);
+        when(relocation.getState(123L)).thenReturn(state);
+        reportCatMenu.sendMessageAtCallback(update);
+
+        verify(subscriberRepository).putStateBot(123L, StateBot.CAT_MENU);
+        verify(state).execute(update);
+    }
+
+    @Test
+    public void testCongratulateAdopter() {
+        Update update = mock(Update.class);
+        Message message = mock(Message.class);
+        when(update.getMessage()).thenReturn(message);
+        when(message.getChatId()).thenReturn(123L);
+
+        reportCatMenu.congratulateAdopter(update);
+
+        verify(telegramBotSendMessage).sendMessage(any());
+    }
+
+    @Test
+    public void testNotifyAdditionalTrialPeriod() {
+        Update update = mock(Update.class);
+        Message message = mock(Message.class);
+        when(update.getMessage()).thenReturn(message);
+        Long chatId = 123L;
+        when(message.getChatId()).thenReturn(chatId);
+
+        reportCatMenu.notifyAdditionalTrialPeriod(update);
+
+        verify(telegramBotSendMessage).sendMessage(any(SendMessage.class));
+    }
+
+    @Test
+    public void testNotifyUnsuccessfulTrialPeriod() {
+        Update update = mock(Update.class);
+        Message message = mock(Message.class);
+        when(update.getMessage()).thenReturn(message);
+        when(message.getChatId()).thenReturn(123L);
+
+        reportCatMenu.notifyUnsuccessfulTrialPeriod(update);
+
+        verify(telegramBotSendMessage).sendMessage(any());
+    }
+
+    @Test
+    public void testCallVolunteer() {
+        Update update = mock(Update.class);
+        Message message = mock(Message.class);
+        when(update.getMessage()).thenReturn(message);
+        when(message.getChatId()).thenReturn(123L);
+
+        reportCatMenu.callVolunteer(update);
+
+        verify(telegramBotSendMessage).sendMessage(any());
     }
 }
