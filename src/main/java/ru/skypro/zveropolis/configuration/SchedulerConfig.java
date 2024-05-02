@@ -1,6 +1,5 @@
 package ru.skypro.zveropolis.configuration;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,6 +9,8 @@ import ru.skypro.zveropolis.model.Users;
 import ru.skypro.zveropolis.relocation.Relocation;
 import ru.skypro.zveropolis.relocation.ReportCatMenu;
 import ru.skypro.zveropolis.repository.PetRepository;
+import ru.skypro.zveropolis.repository.PhotoRepository;
+import ru.skypro.zveropolis.repository.ReportRepository;
 import ru.skypro.zveropolis.repository.SubscriberRepository;
 
 @EnableScheduling

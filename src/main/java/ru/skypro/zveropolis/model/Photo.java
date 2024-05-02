@@ -16,4 +16,13 @@ public class Photo {
     @ManyToOne
     @JoinColumn(name = "report_id")
     private Report report;
+    private String path;
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getPath() {
+        return path;
+    }
 }

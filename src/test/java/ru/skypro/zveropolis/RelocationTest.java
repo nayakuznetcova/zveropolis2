@@ -23,9 +23,9 @@ public class RelocationTest {
     void createNewRelocation() {
 
         Relocation newRelocation = mock(Relocation.class);
-        Relocation myRelocation = new Relocation();
+//        Relocation myRelocation = new Relocation();
 
-        when(newRelocation.getState(any(Long.class))).thenReturn((State) myRelocation);
+        when(newRelocation.getState(any(Long.class))).thenReturn((State) newRelocation);
 //        assertEquals(0, newRelocation.getState(1l));
     }
 

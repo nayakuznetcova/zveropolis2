@@ -14,4 +14,6 @@ public interface PetRepository extends JpaRepository<Pet,Long> {
 
 //    List<Pet> findAllByIsAdoptedAndTypeOfAnimal(boolean isAdopted, TypeOfAnimal typeOfAnimal);
     List<Pet> findAllByTypeOfAnimal(TypeOfAnimal typeOfAnimal);
+
+    Pet findByUsersChatId(Long chatId);
 }
