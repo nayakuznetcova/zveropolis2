@@ -29,7 +29,7 @@ public class UserController {
             )
     })
     @PostMapping
-    public ResponseEntity<Users> createVolonteer(Users user) {
+    public ResponseEntity<Users> createVolonteer(@RequestBody Users user) {
         if (user.isVolunteer()) {
             return ResponseEntity.ok(userService.createUser(user));
         }
@@ -69,7 +69,7 @@ public class UserController {
     })
 
     @PutMapping
-    public ResponseEntity<Users> editVolonteerInfo(Users user) {
+    public ResponseEntity<Users> editVolonteerInfo(@RequestBody Users user) {
         Users volonteerToEdit = userService.editUser(user);
         if (volonteerToEdit.isVolunteer()) {
             return ResponseEntity.ok(volonteerToEdit);
