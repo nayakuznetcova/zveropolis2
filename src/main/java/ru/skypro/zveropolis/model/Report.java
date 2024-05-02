@@ -19,4 +19,13 @@ public class Report {
     @ManyToOne
     @JoinColumn(name = "pet_id")
     private Pet pet;
+    private String description;
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }

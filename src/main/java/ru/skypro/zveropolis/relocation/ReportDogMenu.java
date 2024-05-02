@@ -112,4 +112,61 @@ public class ReportDogMenu implements State{
         createSendMessage.setChatId(chatId);
         return createSendMessage;
     }
+
+    public void handleDailyReportForm(Update update) {
+        if (update.getMessage().hasPhoto() && !update.getMessage().hasText()) {
+            requestText(update);
+        } else if (update.getMessage().hasText() && !update.getMessage().hasPhoto()) {
+            requestPhoto(update);
+        } else {
+            sendIncompleteReportWarning(update);
+        }
+    }
+
+    private void requestText(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessageNotKeyboard("Пожалуйста, пришлите текстовое описание", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    private void requestPhoto(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessageNotKeyboard("Пожалуйста, пришлите фотографию", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    private void sendIncompleteReportWarning(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessageNotKeyboard("Дорогой усыновитель, мы заметили, что ты заполняешь отчет не так подробно, как необходимо. Пожалуйста, подойди ответственнее к этому занятию. В противном случае волонтеры приюта будут обязаны самолично проверять условия содержания животного.", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    public void congratulateAdopter(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessage("Поздравляем! Вы успешно прошли испытательный срок!", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    public void notifyAdditionalTrialPeriod(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessage("Вам назначено дополнительное время испытательного срока на 14 дней.", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    public void notifyUnsuccessfulTrialPeriod(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessage("К сожалению, вы не прошли испытательный срок. Следуйте инструкциям для дальнейших шагов.", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    public void callVolunteer(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessage("Оставьте свой номер телефона, волонтер свяжется с вами.", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+    public class SchedulerConfig{
+        void warning2day(){
+            return;
+        }
+    }
 }

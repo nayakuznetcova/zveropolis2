@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ReportCatMenu implements State{
+public class ReportCatMenu implements State {
     private final SubscriberRepository subscriberRepository;
     private final Relocation relocation;
     private final TelegramBotSendMessage telegramBotSendMessage;
@@ -43,7 +43,7 @@ public class ReportCatMenu implements State{
 
     @Override
     public void execute(Update update) {
-        if (update.hasCallbackQuery()){
+        if (update.hasCallbackQuery()) {
             sendMessageAtCallback(update);
         } else if (update.getMessage().hasPhoto()) {
             textAndPhoto(update);
@@ -87,10 +87,10 @@ public class ReportCatMenu implements State{
         return null;
     }
 
-    public void sendMessageAtCallback(Update update){
+    public void sendMessageAtCallback(Update update) {
         Long chatId = update.getCallbackQuery().getMessage().getChatId();
         String data = update.getCallbackQuery().getData();
-        switch (data){
+        switch (data) {
             case BACK_CAT_REPORT -> {
                 subscriberRepository.putStateBot(chatId, StateBot.CAT_MENU);
                 State state = relocation.getState(chatId);
@@ -101,7 +101,8 @@ public class ReportCatMenu implements State{
             }
         }
     }
-    private SendMessage createSendMessage(String text, Long chatId){
+
+    protected SendMessage createSendMessage(String text, Long chatId) {
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);
@@ -113,5 +114,63 @@ public class ReportCatMenu implements State{
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);
         return createSendMessage;
+    }
+
+    public void handleDailyReportForm(Update update) {
+        if (update.getMessage().hasPhoto() && !update.getMessage().hasText()) {
+            requestText(update);
+        } else if (update.getMessage().hasText() && !update.getMessage().hasPhoto()) {
+            requestPhoto(update);
+        } else {
+            sendIncompleteReportWarning(update);
+        }
+    }
+
+    private void requestText(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessageNotKeyboard("Пожалуйста, пришлите текстовое описание", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    private void requestPhoto(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessageNotKeyboard("Пожалуйста, пришлите фотографию", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    private void sendIncompleteReportWarning(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessageNotKeyboard("Дорогой усыновитель, мы заметили, что ты заполняешь отчет не так подробно, как необходимо. Пожалуйста, подойди ответственнее к этому занятию. В противном случае волонтеры приюта будут обязаны самолично проверять условия содержания животного.", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    public void congratulateAdopter(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessage("Поздравляем! Вы успешно прошли испытательный срок!", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    public void notifyAdditionalTrialPeriod(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessage("Вам назначено дополнительное время испытательного срока на 14 дней.", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    public void notifyUnsuccessfulTrialPeriod(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessage("К сожалению, вы не прошли испытательный срок. Следуйте инструкциям для дальнейших шагов.", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    public void callVolunteer(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        SendMessage sendMessage = createSendMessage("Оставьте свой номер телефона, волонтер свяжется с вами.", chatId);
+        telegramBotSendMessage.sendMessage(sendMessage);
+    }
+
+    public class SchedulerConfig {
+        void warning2day() {
+            return;
+        }
     }
 }
