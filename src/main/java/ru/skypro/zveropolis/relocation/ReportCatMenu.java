@@ -102,7 +102,7 @@ public class ReportCatMenu implements State {
         }
     }
 
-    private SendMessage createSendMessage(String text, Long chatId){
+    protected SendMessage createSendMessage(String text, Long chatId){
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);
