@@ -104,7 +104,7 @@ public class UserController {
             )
     })
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteVolunteer/{id}")
     public ResponseEntity deleteVolunteer(@PathVariable long id) {
         Optional<Users> volunteerToDelete = userService.getUserInfo(id);
         if (volunteerToDelete.get().isVolunteer()) {
