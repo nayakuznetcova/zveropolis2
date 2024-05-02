@@ -52,6 +52,7 @@ public class ReportCatMenu implements State{
         }
     }
 
+
     private void textAndPhoto(Update update){
         Long chatId = update.getMessage().getChatId();
         List<PhotoSize> photoSizes = update.getMessage().getPhoto();
