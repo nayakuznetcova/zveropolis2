@@ -19,7 +19,11 @@ public class Users {
 
     public Users(SendMessage sendMessage) {
     }
-//    @OneToMany
+    public Users(){
+
+    }
+
+    //    @OneToMany
 //    @JoinColumn(name = "pet_id")
 //    private List<Pet> pet;
 }

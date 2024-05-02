@@ -11,7 +11,7 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-//    private String healthAndAddiction;
+    //    private String healthAndAddiction;
 //    private String behavior;
 //    @OneToMany
 //    @JoinColumn(name = "user_id")
@@ -19,13 +19,5 @@ public class Report {
     @ManyToOne
     @JoinColumn(name = "pet_id")
     private Pet pet;
-    private String description;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }

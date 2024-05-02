@@ -25,4 +25,7 @@ public class Shelter {
     public Shelter(SendMessage sendMessage) {
 
     }
+    public Shelter(){
+
+    }
 }
