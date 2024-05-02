@@ -23,6 +23,7 @@ public class StartMenu implements State {
     private final String CAT_SHELTER = "CAT_SHELTER";
     private final String DOG_SHELTER = "DOG_SHELTER";
     private final String BACK = "BACK";
+    private final String CALL_VOLUNTEER = "CALL_VOLUNTEER";
 
     public StartMenu(@Lazy TelegramBotSendMessage telegramBotSendMessage, SubscriberRepository subscriberRepository,@Lazy Relocation relocation) {
         this.telegramBotSendMessage = telegramBotSendMessage;
@@ -96,6 +97,9 @@ public class StartMenu implements State {
             }
             case BACK -> {
                 telegramBotSendMessage.sendMessage(createSendMessage("Вы вернулись в предыдущее меню", chatId));
+            }
+            case CALL_VOLUNTEER -> {
+                telegramBotSendMessage.sendMessage(createSendMessage("С вами свяжется волонтер", chatId));
             }
             default -> throw new IllegalStateException("Unexpected value: " + data);
         }
