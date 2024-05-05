@@ -33,7 +33,11 @@ public class CallVolunteerMenu implements State{
     @Override
     public void execute(Update update) {
         if(update.hasMessage()){
+            Long chatId = update.getMessage().getChatId();
             sendMessageAtText(update);
+            telegramBotSendMessage.sendMessage(createSendMessageNotKeyboard("С вами свяжутся", chatId));
+            changeState(update, chatId);
+            notificationAtVolunteer(update.getMessage().getText());
         }else if (update.hasCallbackQuery()){
             sendMessageAtCallback(update);
         }
@@ -60,14 +64,10 @@ public class CallVolunteerMenu implements State{
         String username = user.getUsername();
         String phoneNumber = user.getPhoneNumber();
         if (username != null){
-            subscriberRepository.putStateBot(chatId, StateBot.START_MENU);
-            State state = relocation.getState(chatId);
-            state.execute(update);
+            changeState(update, chatId);
             return notificationAtVolunteer("@" +username);
         }else if (phoneNumber != null){
-            subscriberRepository.putStateBot(chatId, StateBot.START_MENU);
-            State state = relocation.getState(chatId);
-            state.execute(update);
+            changeState(update, chatId);
             return notificationAtVolunteer(phoneNumber);
         }else {
             SendMessage sendMessageNotKeyboard = createSendMessageNotKeyboard("Введите номер телефона", chatId);
@@ -76,10 +76,24 @@ public class CallVolunteerMenu implements State{
 
     }
 
+    private void changeState(Update update, Long chatId) {
+        subscriberRepository.putStateBot(chatId, StateBot.START_MENU);
+        State state = relocation.getState(chatId);
+        state.execute(update);
+    }
+
     private SendMessage createSendMessageNotKeyboard(String text, Long chatId){
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);
+        return createSendMessage;
+    }
+
+    private SendMessage createSendMessageWithKeyboard(String text, Long chatId){
+        SendMessage createSendMessage = new SendMessage();
+        createSendMessage.setText(text);
+        createSendMessage.setChatId(chatId);
+        createSendMessage.setReplyMarkup(createInlineKeyboardMarkup());
         return createSendMessage;
     }
 

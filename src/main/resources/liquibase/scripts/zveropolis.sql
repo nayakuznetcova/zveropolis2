@@ -50,6 +50,8 @@ create table shelter
     id                                      bigserial primary key,
     greeting                                text,
     info                                    text,
+    contact_details                         text,
+    safety_precautions                      text,
     dating_rules                            text,
     adoption_documents                      text,
     transportation_recommendations          text,

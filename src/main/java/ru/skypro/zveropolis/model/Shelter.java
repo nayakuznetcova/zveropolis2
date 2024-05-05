@@ -13,6 +13,8 @@ public class Shelter {
     private Long id;
     private String greeting;
     private String info;
+    private String contactDetails;
+    private String safetyPrecautions;
     private String datingRules;
     private String adoptionDocuments;
     private String transportationRecommendations;

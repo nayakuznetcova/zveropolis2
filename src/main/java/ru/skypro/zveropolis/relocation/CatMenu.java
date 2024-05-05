@@ -22,6 +22,8 @@ public class CatMenu implements State{
     private final SubscriberRepository subscriberRepository;
     private final Relocation relocation;
     private final String INFORMATION_ABOUT_SHELTER = "INFORMATION_ABOUT_SHELTER";
+    private final String CONTACT_INFORMATION_FOR_ADMISSION = "CONTACT_INFORMATION_FOR_ADMISSION";
+    private final String SAFETY_PRECAUTIONS = "SAFETY_PRECAUTIONS";
     private final String HOW_TAKE_PET = "HOW_TAKE_PET";
     private final String SEND_REPORT = "SEND_REPORT";
     private final String CALL_VOLUNTEER = "CALL_VOLUNTEER";
@@ -57,32 +59,44 @@ public class CatMenu implements State{
         List<InlineKeyboardButton> buttonRow3 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow4 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow5 = new ArrayList<>();
+        List<InlineKeyboardButton> buttonRow6 = new ArrayList<>();
+        List<InlineKeyboardButton> buttonRow7 = new ArrayList<>();
 
         InlineKeyboardButton informationAboutShelter = new InlineKeyboardButton("Информация о приюте для кошек");
         informationAboutShelter.setCallbackData(INFORMATION_ABOUT_SHELTER);
         buttonRow1.add(informationAboutShelter);
 
+        InlineKeyboardButton contactInformationForAdmission = new InlineKeyboardButton("Контактные данные для оформления пропуска");
+        contactInformationForAdmission.setCallbackData(CONTACT_INFORMATION_FOR_ADMISSION);
+        buttonRow2.add(contactInformationForAdmission);
+
+        InlineKeyboardButton safetyPrecautions = new InlineKeyboardButton("Техника безопасности на территории приюта");
+        safetyPrecautions.setCallbackData(SAFETY_PRECAUTIONS);
+        buttonRow3.add(safetyPrecautions);
+
         InlineKeyboardButton howTakePet = new InlineKeyboardButton("Как взять животное из приюта");
         howTakePet.setCallbackData(HOW_TAKE_PET);
-        buttonRow2.add(howTakePet);
+        buttonRow4.add(howTakePet);
 
         InlineKeyboardButton sendReport = new InlineKeyboardButton("Прислать отчёт");
         sendReport.setCallbackData(SEND_REPORT);
-        buttonRow3.add(sendReport);
+        buttonRow5.add(sendReport);
 
         InlineKeyboardButton callVolunteer = new InlineKeyboardButton("Позвать волонтёра");
         callVolunteer.setCallbackData(CALL_VOLUNTEER);
-        buttonRow4.add(callVolunteer);
+        buttonRow6.add(callVolunteer);
 
         InlineKeyboardButton back = new InlineKeyboardButton("Назад");
         back.setCallbackData(BACK);
-        buttonRow5.add(back);
+        buttonRow7.add(back);
 
         button.add(buttonRow1);
         button.add(buttonRow2);
         button.add(buttonRow3);
         button.add(buttonRow4);
         button.add(buttonRow5);
+        button.add(buttonRow6);
+        button.add(buttonRow7);
 
         inlineKeyboardMarkup.setKeyboard(button);
         return inlineKeyboardMarkup;
@@ -110,10 +124,20 @@ public class CatMenu implements State{
                         firstByTypeOfAnimal.getInfo(), chatId
                 ));
             }
-            case HOW_TAKE_PET -> {
+            case CONTACT_INFORMATION_FOR_ADMISSION -> {
                 telegramBotSendMessage.sendMessage(createSendMessage(
-                        firstByTypeOfAnimal.getDatingRules(), chatId
+                        firstByTypeOfAnimal.getContactDetails(), chatId
                 ));
+            }
+            case SAFETY_PRECAUTIONS -> {
+                telegramBotSendMessage.sendMessage(createSendMessage(
+                        firstByTypeOfAnimal.getSafetyPrecautions(), chatId
+                ));
+            }
+            case HOW_TAKE_PET -> {
+                subscriberRepository.putStateBot(chatId, StateBot.INFO_CAT_SHELTER_MENU);
+                State state = relocation.getState(chatId);
+                state.execute(update);
             }
             case SEND_REPORT -> {
                 subscriberRepository.putStateBot(chatId, StateBot.REPORT_CAT_MENU);

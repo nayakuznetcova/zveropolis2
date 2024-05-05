@@ -16,6 +16,8 @@ public class Relocation {
     private final ReportDogMenu reportDogMenu;
     private final CallVolunteerMenu callVolunteerMenu;
     private final SubscriberRepository subscriberRepository;
+    private final InfoCatShelterMenu infoCatShelterMenu;
+    private final InfoDogShelterMenu infoDogShelterMenu;
 
 
     public void doCrossroads(Update update) {
@@ -54,6 +56,12 @@ public class Relocation {
             }
             case CALL_VOLUNTEER_MENU -> {
                 return callVolunteerMenu;
+            }
+            case INFO_CAT_SHELTER_MENU -> {
+                return infoCatShelterMenu;
+            }
+            case INFO_DOG_SHELTER_MENU -> {
+                return infoDogShelterMenu;
             }
         }
         throw new RuntimeException();
