@@ -44,7 +44,7 @@ public class UserController {
             )
     })
     @PostMapping
-    public ResponseEntity<Users> createVolunteer(Users user) {
+    public ResponseEntity<Users> createVolunteer(@RequestBody Users user) {
         if (user.isVolunteer()) {
             return ResponseEntity.ok(userService.createUser(user));
         }
@@ -85,7 +85,7 @@ public class UserController {
     })
 
     @PutMapping
-    public ResponseEntity<Users> editVolunteerInfo(Users user) {
+    public ResponseEntity<Users> editVolunteerInfo(@RequestBody Users user) {
         Users volunteerToEdit = userService.editUser(user);
         if (volunteerToEdit.isVolunteer()) {
             return ResponseEntity.ok(volunteerToEdit);
@@ -104,8 +104,8 @@ public class UserController {
             )
     })
 
-    @DeleteMapping("/deleteVolunteer/{id}")
-    public ResponseEntity deleteVolunteer(@PathVariable long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity <Void> deleteVolunteer(@PathVariable long id) {
         Optional<Users> volunteerToDelete = userService.getUserInfo(id);
         if (volunteerToDelete.get().isVolunteer()) {
             userService.deleteUser(id);

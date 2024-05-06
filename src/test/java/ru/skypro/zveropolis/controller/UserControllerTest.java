@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import ru.skypro.zveropolis.model.Pet;
 import ru.skypro.zveropolis.model.Users;
 
 import ru.skypro.zveropolis.repository.UserRepository;
@@ -24,8 +23,9 @@ import ru.skypro.zveropolis.service.UserService;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.any;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -51,28 +51,29 @@ class UserControllerTest {
 
 
     @Test
-    void createVolunteer() throws Exception {
+    void createVolunteerCorrect() throws Exception {
 
         long id = 20L;
         String firstName = "test";
-        String userName ="test";
         boolean isVolunteer = true;
 
-        Users test = new Users(id,firstName,userName,"891",isVolunteer);
+        Users userTest = new Users();
+        userTest.setChatId(id);
+        userTest.setFirstName(firstName);
+        userTest.setVolunteer(isVolunteer);
 
 
-        when(userRepository.save(any(Users.class))).thenReturn(test);
-        when(userService.createUser(any(Users.class))).thenReturn(test);
+        when(userRepository.save(any(Users.class))).thenReturn(userTest);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/user")
-                        .content(objectMapper.writeValueAsString(test))
+                        .content(objectMapper.writeValueAsString(userTest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void getVolunteerInfo() throws Exception {
+    void getVolunteerInfoCorrect() throws Exception {
         long id = 20L;
         String firstName = "test";
         boolean isVolunteer = true;
@@ -95,7 +96,7 @@ class UserControllerTest {
     }
 
     @Test
-    void editVolunteerInfo() throws Exception{
+    void editVolunteerInfoCorrect() throws Exception{
         long id = 20L;
         String firstName = "test";
         boolean isVolunteer = true;
@@ -109,6 +110,7 @@ class UserControllerTest {
         Users newUser = new Users();
         newUser.setChatId(id);
         newUser.setFirstName(newName);
+        newUser.setVolunteer(isVolunteer);
 
 
         JSONObject jsonObject = new JSONObject();
@@ -124,12 +126,12 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.chatId").value(id))
                 .andExpect(jsonPath("$.firstName").value(newName));
     }
 
     @Test
-    void deleteVolunteer() throws Exception {
+    void deleteVolunteerCorrect() throws Exception {
         long id = 20L;
         String firstName = "test";
         boolean isVolunteer = true;
@@ -140,10 +142,11 @@ class UserControllerTest {
         userTest.setVolunteer(isVolunteer);
 
 
-        when(userRepository.save(any(Users.class))).thenReturn(userTest);
+       when(userRepository.save(any(Users.class))).thenReturn(userTest);
+       when(userService.getUserInfo(id)).thenReturn(Optional.of(userTest));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/user/deleteVolunteer/" + userTest.getChatId())
+                        .delete("/user/" + id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

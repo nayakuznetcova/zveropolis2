@@ -52,16 +52,16 @@ class ReportServiceTest {
     }
 
     @Test
-    void getReportByPet() {
+    void getReportsByPetCorrect() {
 
-        Mockito.when(repository.findByPet(PET_1)).thenReturn(Optional.ofNullable(REPORT_1));
-        out.getReportByPet(PET_1);
-        Mockito.verify(repository, Mockito.times(1)).findByPet(PET_1);
-        assertEquals(Optional.of(REPORT_1),   out.getReportByPet(PET_1));
+        Mockito.when(repository.findByPetId(PET_1.getId())).thenReturn(REPORTS);
+        out.getReportsByPet(PET_1.getId());
+        Mockito.verify(repository, Mockito.times(1)).findByPetId(PET_1.getId());
+        assertEquals(REPORTS,   out.getReportsByPet(PET_1.getId()));
     }
 
     @Test
-    void updateReport() {
+    void updateReportCorrect() {
         Mockito.when(repository.save(REPORT_1)).thenReturn(REPORT_1);
         out.updateReport(REPORT_1);
         Mockito.verify(repository, Mockito.times(1)).save(REPORT_1);
@@ -69,7 +69,7 @@ class ReportServiceTest {
     }
 
     @Test
-    void deleteReport() {
+    void deleteReportCorrect() {
         long id = 1L;
         Mockito.doNothing().when(repository).deleteById(id);
         out.deleteReport(id);
@@ -77,7 +77,7 @@ class ReportServiceTest {
     }
 
     @Test
-    void getAll() {
+    void getAllCorrect() {
         Mockito.when(repository.findAll()).thenReturn(REPORTS);
         out.getAll();
         Mockito.verify(repository, Mockito.times(1)).findAll();
@@ -85,7 +85,7 @@ class ReportServiceTest {
     }
 
     @Test
-    void checkReportByVolunteer() {
+    void checkReportByVolunteerCorrect() {
         Mockito.when(repository.save(REPORT_1)).thenReturn(REPORT_1);
         out.checkReportByVolunteer(REPORT_1);
         Mockito.verify(repository, Mockito.times(1)).save(REPORT_1);
@@ -93,7 +93,7 @@ class ReportServiceTest {
     }
 
     @Test
-    void getAlLReportsForCheck() {
+    void getAlLReportsForCheckCorrect() {
         Mockito.when(repository.findAllByIsChecked(false)).thenReturn(REPORTS);
         out.getAlLReportsForCheck(false);
         Mockito.verify(repository, Mockito.times(1)).findAllByIsChecked(false);

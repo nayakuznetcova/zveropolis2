@@ -32,8 +32,8 @@ public class ReportService {
      * Позволяет получить отчет по питомцу
      * @return отчет
      */
-    public Optional<Report> getReportByPet(Pet pet) {
-        return reportRepository.findByPet(pet);
+    public List <Report> getReportsByPet(long id) {
+        return reportRepository.findByPetId (id);
     }
     /**
      * Позволяет обновить информацию в отчете

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.skypro.zveropolis.exception.PetAlreadyExistsException;
 import ru.skypro.zveropolis.model.Pet;
 import ru.skypro.zveropolis.model.TypeOfAnimal;
 import ru.skypro.zveropolis.model.Users;
@@ -40,6 +41,9 @@ public class PetController {
     })
     @PostMapping("/addPet")
     public void addPet(@RequestBody Pet pet) {
+        if (petService.getPetById(pet.getId()).isPresent()) {
+            throw new PetAlreadyExistsException("Такой питомец уже существует");
+        }
         petService.addPet(pet);
     }
 
