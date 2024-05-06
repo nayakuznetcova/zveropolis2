@@ -17,8 +17,6 @@ public class Users {
     private String phoneNumber;
     private boolean isVolunteer;
 
-    public Users(SendMessage sendMessage) {
-    }
 //    @OneToMany
 //    @JoinColumn(name = "pet_id")
 //    private List<Pet> pet;

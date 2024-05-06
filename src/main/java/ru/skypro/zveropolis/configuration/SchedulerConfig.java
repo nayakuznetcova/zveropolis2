@@ -12,25 +12,33 @@ import ru.skypro.zveropolis.repository.PetRepository;
 import ru.skypro.zveropolis.repository.PhotoRepository;
 import ru.skypro.zveropolis.repository.ReportRepository;
 import ru.skypro.zveropolis.repository.SubscriberRepository;
+import ru.skypro.zveropolis.service.UserService;
+
+import java.util.List;
 
 @EnableScheduling
 class SchedulerConfig extends ReportCatMenu {
-    public SchedulerConfig(SubscriberRepository subscriberRepository, Relocation relocation, TelegramBotSendMessage telegramBotSendMessage, ReportRepository reportRepository, PhotoRepository photoRepository, PetRepository petRepository) {
+    private UserService userService;
+    private TelegramBotSendMessage telegramBotSendMessage;
+    public SchedulerConfig(SubscriberRepository subscriberRepository, UserService userService, Relocation relocation, TelegramBotSendMessage telegramBotSendMessage, ReportRepository reportRepository, PhotoRepository photoRepository, PetRepository petRepository) {
         super(subscriberRepository, relocation, telegramBotSendMessage, reportRepository, photoRepository, petRepository);
     }
 
-    @Scheduled (cron = "0 0 21 2 * *", zone = "Europe/Moscow")
+    @Scheduled(cron = "0 0 21 2 * *", zone = "Europe/Moscow")
     public void warning2day(Update update, TelegramBotSendMessage telegramBotSendMessage) throws InterruptedException {
         Long chatId = update.getMessage().getChatId();
         SendMessage sendMessage = createSendMessage("Дорогой усыновитель! пришлите отчет о состоянии животного. " +
                 "Напоминаем: отчет отправляется ежедневно!", chatId);
         telegramBotSendMessage.sendMessage(sendMessage);
     }
-    @Scheduled (cron = "0 0 21 3 * *", zone = "Europe/Moscow")
-    public void warning2dayVolonteer(Update update) throws InterruptedException{
-        Long chatId = update.getMessage().getChatId();
-        if (!update.getMessage().hasText())
-            new Users(createSendMessage("Дорогой волонтёр! Усыновитель не присылает отчет о состоянии животного " +
-                    "более 2 дней. Обратитесь к усыновителю за обратной связью!", chatId));
+
+    @Scheduled(cron = "0 0 21 3 * *", zone = "Europe/Moscow")
+    public void warning2dayVolonteer() {
+        List<Users> users = userService.getVolonteers();
+        for (Users volunteer : users) {
+            SendMessage sendMessage = createSendMessage("Дорогой волонтёр! Усыновитель не присылает отчет о состоянии животного " +
+                    "более 2 дней. Обратитесь к усыновителю за обратной связью!", volunteer.getChatId());
+            telegramBotSendMessage.sendMessage(sendMessage);
+        }
     }
 }
