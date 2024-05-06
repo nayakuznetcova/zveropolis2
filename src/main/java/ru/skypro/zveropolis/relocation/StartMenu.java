@@ -76,7 +76,7 @@ public class StartMenu implements State {
         Long chatId = update.getMessage().getChatId();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
-        sendMessage.setText("Вас приветсвует приют Зверополис");
+        sendMessage.setText("Вас приветсвует приют Зверополис. Пожалуйста, выберите нужный Вам приют:");
         sendMessage.setReplyMarkup(createInlineKeyboardMarkup());
         return telegramBotSendMessage.sendMessage(sendMessage);
     }
@@ -99,7 +99,7 @@ public class StartMenu implements State {
                 telegramBotSendMessage.sendMessage(createSendMessage("Вы вернулись в предыдущее меню", chatId));
             }
             case CALL_VOLUNTEER -> {
-                telegramBotSendMessage.sendMessage(createSendMessage("С вами свяжется волонтер", chatId));
+                telegramBotSendMessage.sendMessage(createSendMessage("С вами свяжется волонтёр", chatId));
             }
             default -> throw new IllegalStateException("Unexpected value: " + data);
         }

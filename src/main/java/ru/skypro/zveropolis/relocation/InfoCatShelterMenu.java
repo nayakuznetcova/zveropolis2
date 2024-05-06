@@ -71,7 +71,7 @@ public class InfoCatShelterMenu implements State{
         transportationRecommendations.setCallbackData(TRANSPORTATION_RECOMMENDATIONS);
         buttonRow3.add(transportationRecommendations);
 
-        InlineKeyboardButton recommendationsArrangingBaby = new InlineKeyboardButton("Рекомендации для котенка");
+        InlineKeyboardButton recommendationsArrangingBaby = new InlineKeyboardButton("Рекомендации для котёнка");
         recommendationsArrangingBaby.setCallbackData(RECOMMENDATIONS_ARRANGING_BABY);
         buttonRow4.add(recommendationsArrangingBaby);
 
@@ -105,7 +105,7 @@ public class InfoCatShelterMenu implements State{
         Shelter firstByTypeOfAnimal = shelterRepository.findFirstByTypeOfAnimal(TypeOfAnimal.CAT);
         switch (data) {
             case HOW_TAKE_PET ->{
-                telegramBotSendMessage.sendMessage(createSendMessage("Вы в инфо", chatId));
+                telegramBotSendMessage.sendMessage(createSendMessage("Какой вопрос вас интересует?", chatId));
             }
             case DATING_RULES -> {
                 telegramBotSendMessage.sendMessage(createSendMessage(

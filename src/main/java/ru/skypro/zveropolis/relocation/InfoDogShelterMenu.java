@@ -104,7 +104,7 @@ public class InfoDogShelterMenu implements State{
         Shelter firstByTypeOfAnimal = shelterRepository.findFirstByTypeOfAnimal(TypeOfAnimal.DOG);
         switch (data) {
             case HOW_TAKE_PET ->{
-                telegramBotSendMessage.sendMessage(createSendMessage("Вы в инфо", chatId));
+                telegramBotSendMessage.sendMessage(createSendMessage("Какой вопрос вас интересует?", chatId));
             }
             case DATING_RULES -> {
                 telegramBotSendMessage.sendMessage(createSendMessage(

@@ -35,7 +35,7 @@ public class CallVolunteerMenu implements State{
         if(update.hasMessage()){
             Long chatId = update.getMessage().getChatId();
             sendMessageAtText(update);
-            telegramBotSendMessage.sendMessage(createSendMessageNotKeyboard("С вами свяжутся", chatId));
+            telegramBotSendMessage.sendMessage(createSendMessageNotKeyboard("С вами свяжется волонтёр в ближайшее время", chatId));
             changeState(update, chatId);
             notificationAtVolunteer(update.getMessage().getText());
         }else if (update.hasCallbackQuery()){

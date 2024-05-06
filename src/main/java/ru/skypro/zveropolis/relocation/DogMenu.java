@@ -60,7 +60,7 @@ public class DogMenu implements State {
         List<InlineKeyboardButton> buttonRow6 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow7 = new ArrayList<>();
 
-        InlineKeyboardButton informationAboutShelter = new InlineKeyboardButton("Информация о приюте для кошек");
+        InlineKeyboardButton informationAboutShelter = new InlineKeyboardButton("Информация о приюте для собак");
         informationAboutShelter.setCallbackData(INFORMATION_ABOUT_SHELTER);
         buttonRow1.add(informationAboutShelter);
 
@@ -151,7 +151,7 @@ public class DogMenu implements State {
                 state.execute(update);
             }
             case BACK_DOG_REPORT -> {
-                telegramBotSendMessage.sendMessage(createSendMessage("Вы вернулись в меню собачьего приюта", chatId));
+                telegramBotSendMessage.sendMessage(createSendMessage("Вы вернулись в меню приюта для собак", chatId));
             }
         }
     }

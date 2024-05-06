@@ -60,7 +60,7 @@ public class ReportCatMenu implements State {
         File file = telegramBotSendMessage.sendFile(getFile, UUID.randomUUID().toString());
         photo.setPath(file.getPath());
         if(update.getMessage().getCaption() == null){
-            SendMessage sendMessageNotKeyboard = createSendMessageNotKeyboard("добавьте подпись", chatId);
+            SendMessage sendMessageNotKeyboard = createSendMessageNotKeyboard("Добавьте описание, включающее в себя рацион, самочувствие и повадки питомца", chatId);
             telegramBotSendMessage.sendMessage(sendMessageNotKeyboard);
         } else {
             String caption = update.getMessage().getCaption();
@@ -70,7 +70,7 @@ public class ReportCatMenu implements State {
             report.setPet(pet);
             Report saveReport = reportRepository.save(report);
             photo.setReport(saveReport);
-            SendMessage sendMessageNotKeyboard = createSendMessageNotKeyboard("отчет сохранен", chatId);
+            SendMessage sendMessageNotKeyboard = createSendMessageNotKeyboard("Отчёт сохранен", chatId);
             telegramBotSendMessage.sendMessage(sendMessageNotKeyboard);
 
             subscriberRepository.putStateBot(chatId, StateBot.START_MENU);
@@ -97,7 +97,7 @@ public class ReportCatMenu implements State {
                 state.execute(update);
             }
             case SEND_REPORT -> {
-                telegramBotSendMessage.sendMessage(createSendMessage("Вы в репорте", chatId));
+                telegramBotSendMessage.sendMessage(createSendMessage("Пришлите пожалуйста отчёт о рационе, самочувствие и повадках питомца и прикрепите фото", chatId));
             }
         }
     }
@@ -141,7 +141,7 @@ public class ReportCatMenu implements State {
 
     private void sendIncompleteReportWarning(Update update) {
         Long chatId = update.getMessage().getChatId();
-        SendMessage sendMessage = createSendMessageNotKeyboard("Дорогой усыновитель, мы заметили, что ты заполняешь отчет не так подробно, как необходимо. Пожалуйста, подойди ответственнее к этому занятию. В противном случае волонтеры приюта будут обязаны самолично проверять условия содержания животного.", chatId);
+        SendMessage sendMessage = createSendMessageNotKeyboard("Дорогой усыновитель, мы заметили, что ты заполняешь отчет не так подробно, как необходимо. Пожалуйста, подойди ответственнее к этому занятию. В противном случае волонтеры приюта будут обязаны самолично проверять условия содержания животного", chatId);
         telegramBotSendMessage.sendMessage(sendMessage);
     }
 
@@ -153,19 +153,19 @@ public class ReportCatMenu implements State {
 
     public void notifyAdditionalTrialPeriod(Update update) {
         Long chatId = update.getMessage().getChatId();
-        SendMessage sendMessage = createSendMessage("Вам назначено дополнительное время испытательного срока на 14 дней.", chatId);
+        SendMessage sendMessage = createSendMessage("Вам назначено дополнительное время испытательного срока на 14 дней", chatId);
         telegramBotSendMessage.sendMessage(sendMessage);
     }
 
     public void notifyUnsuccessfulTrialPeriod(Update update) {
         Long chatId = update.getMessage().getChatId();
-        SendMessage sendMessage = createSendMessage("К сожалению, вы не прошли испытательный срок. Следуйте инструкциям для дальнейших шагов.", chatId);
+        SendMessage sendMessage = createSendMessage("К сожалению, вы не прошли испытательный срок. Следуйте инструкциям для дальнейших шагов", chatId);
         telegramBotSendMessage.sendMessage(sendMessage);
     }
 
     public void callVolunteer(Update update) {
         Long chatId = update.getMessage().getChatId();
-        SendMessage sendMessage = createSendMessage("Оставьте свой номер телефона, волонтер свяжется с вами.", chatId);
+        SendMessage sendMessage = createSendMessage("Оставьте свой номер телефона, волонтер свяжется с вами", chatId);
         telegramBotSendMessage.sendMessage(sendMessage);
     }
 

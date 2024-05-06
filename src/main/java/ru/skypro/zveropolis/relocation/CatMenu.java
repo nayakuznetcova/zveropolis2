@@ -155,7 +155,7 @@ public class CatMenu implements State{
                 state.execute(update);
             }
             case BACK_CAT_REPORT ->{
-                telegramBotSendMessage.sendMessage(createSendMessage("Вы вернулись в меню кошачьего приюта", chatId));
+                telegramBotSendMessage.sendMessage(createSendMessage("Вы вернулись в меню приюта для кошек", chatId));
             }
         }
     }
