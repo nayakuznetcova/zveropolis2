@@ -25,6 +25,8 @@ public class InfoDogShelterMenu implements State{
     private final String DATING_RULES = "DATING_RULES";
     private final String ADOPTION_DOCUMENTS = "ADOPTION_DOCUMENTS";
     private final String TRANSPORTATION_RECOMMENDATIONS = "TRANSPORTATION_RECOMMENDATIONS";
+    private final String LIST_OF_DOG_HANDLERS = "LIST_OF_DOG_HANDLERS";
+    private final String DOG_HANDLER_ADVICE = "DOG_HANDLER_ADVICE";
     private final String RECOMMENDATIONS_ARRANGING_BABY = "RECOMMENDATIONS_ARRANGING_BABY";
     private final String RECOMMENDATIONS_ARRANGING_ADULT = "RECOMMENDATIONS_ARRANGING_ADULT";
     private final String RECOMMENDATIONS_ARRANGING_WITH_FEATURES = "RECOMMENDATIONS_ARRANGING_WITH_FEATURES";
@@ -57,6 +59,8 @@ public class InfoDogShelterMenu implements State{
         List<InlineKeyboardButton> buttonRow5 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow6 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow7 = new ArrayList<>();
+        List<InlineKeyboardButton> buttonRow8 = new ArrayList<>();
+        List<InlineKeyboardButton> buttonRow9 = new ArrayList<>();
 
         InlineKeyboardButton datingRules = new InlineKeyboardButton("Правила знакомства");
         datingRules.setCallbackData(DATING_RULES);
@@ -70,21 +74,29 @@ public class InfoDogShelterMenu implements State{
         transportationRecommendations.setCallbackData(TRANSPORTATION_RECOMMENDATIONS);
         buttonRow3.add(transportationRecommendations);
 
+        InlineKeyboardButton listOfDogHandlers = new InlineKeyboardButton("Список кинологов");
+        listOfDogHandlers.setCallbackData(LIST_OF_DOG_HANDLERS);
+        buttonRow4.add(listOfDogHandlers);
+
+        InlineKeyboardButton dogHandlerAdvice = new InlineKeyboardButton("Советы от кинолога для первого время");
+        dogHandlerAdvice.setCallbackData(DOG_HANDLER_ADVICE);
+        buttonRow5.add(dogHandlerAdvice);
+
         InlineKeyboardButton recommendationsArrangingBaby = new InlineKeyboardButton("Рекомендации для щенка");
         recommendationsArrangingBaby.setCallbackData(RECOMMENDATIONS_ARRANGING_BABY);
-        buttonRow4.add(recommendationsArrangingBaby);
+        buttonRow6.add(recommendationsArrangingBaby);
 
         InlineKeyboardButton recommendationsArrangingAdult = new InlineKeyboardButton("Рекомендации для взрослой собаки");
         recommendationsArrangingAdult.setCallbackData(RECOMMENDATIONS_ARRANGING_ADULT);
-        buttonRow5.add(recommendationsArrangingAdult);
+        buttonRow7.add(recommendationsArrangingAdult);
 
         InlineKeyboardButton recommendationsArrangingWithFeatures = new InlineKeyboardButton("Рекомендации для собаки с особенностями");
         recommendationsArrangingWithFeatures.setCallbackData(RECOMMENDATIONS_ARRANGING_WITH_FEATURES);
-        buttonRow6.add(recommendationsArrangingWithFeatures);
+        buttonRow8.add(recommendationsArrangingWithFeatures);
 
         InlineKeyboardButton backDogReport = new InlineKeyboardButton("Назад");
         backDogReport.setCallbackData(BACK_DOG_REPORT);
-        buttonRow7.add(backDogReport);
+        buttonRow9.add(backDogReport);
 
         button.add(buttonRow1);
         button.add(buttonRow2);
@@ -93,6 +105,8 @@ public class InfoDogShelterMenu implements State{
         button.add(buttonRow5);
         button.add(buttonRow6);
         button.add(buttonRow7);
+        button.add(buttonRow8);
+        button.add(buttonRow9);
 
         inlineKeyboardMarkup.setKeyboard(button);
         return inlineKeyboardMarkup;
@@ -117,6 +131,14 @@ public class InfoDogShelterMenu implements State{
             case TRANSPORTATION_RECOMMENDATIONS -> {
                 telegramBotSendMessage.sendMessage(createSendMessage(
                         firstByTypeOfAnimal.getTransportationRecommendations(), chatId));
+            }
+            case LIST_OF_DOG_HANDLERS -> {
+                telegramBotSendMessage.sendMessage(createSendMessage(
+                        firstByTypeOfAnimal.getListOfDogHandlers(), chatId));
+            }
+            case DOG_HANDLER_ADVICE -> {
+                telegramBotSendMessage.sendMessage(createSendMessage(
+                        firstByTypeOfAnimal.getDogHandlerAdvice(), chatId));
             }
             case RECOMMENDATIONS_ARRANGING_BABY -> {
                 telegramBotSendMessage.sendMessage(createSendMessage(

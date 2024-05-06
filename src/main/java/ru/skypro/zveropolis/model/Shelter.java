@@ -13,11 +13,13 @@ public class Shelter {
     private Long id;
     private String greeting;
     private String info;
+    private String datingRules;
     private String contactDetails;
     private String safetyPrecautions;
-    private String datingRules;
     private String adoptionDocuments;
     private String transportationRecommendations;
+    private String listOfDogHandlers;
+    private String dogHandlerAdvice;
     private String recommendationsArrangingBaby;
     private String recommendationsArrangingAdult;
     private String recommendationsArrangingWithFeatures;
@@ -27,7 +29,8 @@ public class Shelter {
     public Shelter(SendMessage sendMessage) {
 
     }
-    public Shelter(){
+
+    public Shelter() {
 
     }
 }

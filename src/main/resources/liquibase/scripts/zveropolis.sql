@@ -55,6 +55,8 @@ create table shelter
     dating_rules                            text,
     adoption_documents                      text,
     transportation_recommendations          text,
+    list_of_dog_handlers                    text,
+    dog_handler_advice                      text,
     recommendations_arranging_baby          text,
     recommendations_arranging_adult         text,
     recommendations_arranging_with_features text,
