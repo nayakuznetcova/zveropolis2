@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class InfoDogShelterMenu implements State{
+public class InfoDogShelterMenu implements State {
     private final TelegramBotSendMessage telegramBotSendMessage;
     private final ShelterRepository shelterRepository;
     private final SubscriberRepository subscriberRepository;
@@ -39,9 +39,10 @@ public class InfoDogShelterMenu implements State{
         this.subscriberRepository = subscriberRepository;
         this.relocation = relocation;
     }
+
     @Override
     public void execute(Update update) {
-        if(update.hasCallbackQuery()){
+        if (update.hasCallbackQuery()) {
             sendMessageAtCallback(update);
         } else if (update.hasMessage() && update.getMessage().hasText()) {
         }
@@ -117,7 +118,7 @@ public class InfoDogShelterMenu implements State{
         String data = update.getCallbackQuery().getData();
         Shelter firstByTypeOfAnimal = shelterRepository.findFirstByTypeOfAnimal(TypeOfAnimal.DOG);
         switch (data) {
-            case HOW_TAKE_PET ->{
+            case HOW_TAKE_PET -> {
                 telegramBotSendMessage.sendMessage(createSendMessage("Какой вопрос вас интересует?", chatId));
             }
             case DATING_RULES -> {
@@ -160,7 +161,7 @@ public class InfoDogShelterMenu implements State{
         }
     }
 
-    private SendMessage createSendMessage(String text, Long chatId){
+    private SendMessage createSendMessage(String text, Long chatId) {
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);

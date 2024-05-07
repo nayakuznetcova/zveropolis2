@@ -5,5 +5,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 
 public interface State {
     void execute(Update update);
+
     InlineKeyboardMarkup createInlineKeyboardMarkup();
 }

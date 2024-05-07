@@ -18,9 +18,9 @@ public class SubscriberRepository {
         this.userRepository = userRepository;
     }
 
-    public boolean checkUser(Message message){
+    public boolean checkUser(Message message) {
         Long chatId = message.getChatId();
-        if(stateMap.containsKey(chatId)){
+        if (stateMap.containsKey(chatId)) {
             return true;
         }
         Users users = new Users();
@@ -28,15 +28,15 @@ public class SubscriberRepository {
         users.setFirstName(message.getChat().getFirstName());
         users.setUsername(message.getChat().getUserName());
         userRepository.save(users);
-        stateMap.put(chatId,StateBot.START_MENU);
+        stateMap.put(chatId, StateBot.START_MENU);
         return false;
     }
 
-    public StateBot getStateBot(Long chatId){
+    public StateBot getStateBot(Long chatId) {
         return stateMap.get(chatId);
     }
 
-    public StateBot putStateBot(Long chatId, StateBot stateBot){
+    public StateBot putStateBot(Long chatId, StateBot stateBot) {
         return stateMap.put(chatId, stateBot);
     }
 }

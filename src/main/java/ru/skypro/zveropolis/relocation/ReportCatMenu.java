@@ -51,7 +51,8 @@ public class ReportCatMenu implements State {
 
         }
     }
-    private void textAndPhoto(Update update){
+
+    private void textAndPhoto(Update update) {
         Long chatId = update.getMessage().getChatId();
         List<PhotoSize> photoSizes = update.getMessage().getPhoto();
         Photo photo = new Photo();
@@ -59,7 +60,7 @@ public class ReportCatMenu implements State {
         GetFile getFile = new GetFile(photoSize.getFileId());
         File file = telegramBotSendMessage.sendFile(getFile, UUID.randomUUID().toString());
         photo.setPath(file.getPath());
-        if(update.getMessage().getCaption() == null){
+        if (update.getMessage().getCaption() == null) {
             SendMessage sendMessageNotKeyboard = createSendMessageNotKeyboard("Добавьте описание, включающее в себя рацион, самочувствие и повадки питомца", chatId);
             telegramBotSendMessage.sendMessage(sendMessageNotKeyboard);
         } else {
@@ -102,7 +103,7 @@ public class ReportCatMenu implements State {
         }
     }
 
-    protected SendMessage createSendMessage(String text, Long chatId){
+    protected SendMessage createSendMessage(String text, Long chatId) {
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);
@@ -110,7 +111,7 @@ public class ReportCatMenu implements State {
         return createSendMessage;
     }
 
-    private SendMessage createSendMessageNotKeyboard(String text, Long chatId){
+    private SendMessage createSendMessageNotKeyboard(String text, Long chatId) {
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);

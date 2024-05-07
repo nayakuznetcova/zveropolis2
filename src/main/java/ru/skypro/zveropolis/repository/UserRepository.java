@@ -10,8 +10,8 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<Users, Long> {
     @Query(value = """
-select * from users
-where is_volunteer  = true;
-""" ,nativeQuery = true)
+            select * from users
+            where is_volunteer  = true;
+            """, nativeQuery = true)
     List<Users> getUsersByVolunteerIsTrue();
 }

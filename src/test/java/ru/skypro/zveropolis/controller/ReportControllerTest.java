@@ -36,6 +36,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @WebMvcTest(ReportController.class)
 @ExtendWith(MockitoExtension.class)
 class ReportControllerTest {
@@ -57,7 +58,7 @@ class ReportControllerTest {
     ObjectMapper objectMapper;
 
     @Test
-    void addReportCorrect() throws Exception{
+    void addReportCorrect() throws Exception {
 
         long id = 20L;
         String description = "test";
@@ -65,8 +66,6 @@ class ReportControllerTest {
         Report reportTest = new Report();
         reportTest.setId(id);
         reportTest.setDescription(description);
-
-
 
 
         when(reportRepository.save(any(Report.class))).thenReturn(reportTest);
@@ -120,7 +119,7 @@ class ReportControllerTest {
         reportTest.setDescription(description);
         reportTest.setPet(petTest);
 
-        List <Report> report = List.of(reportTest);
+        List<Report> report = List.of(reportTest);
         List<Report> exp = List.of(reportTest);
 
 
@@ -167,8 +166,9 @@ class ReportControllerTest {
 
         }
     }
+
     @Test
-    void updateReportCorrect() throws Exception{
+    void updateReportCorrect() throws Exception {
         long id = 20L;
         String description = "test";
         String newDescription = "new";
@@ -182,7 +182,6 @@ class ReportControllerTest {
         reportUpdate.setDescription(newDescription);
 
 
-
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", id);
         jsonObject.put("description", newDescription);
@@ -190,7 +189,7 @@ class ReportControllerTest {
         when(reportRepository.save(any(Report.class))).thenReturn(reportUpdate);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/report?"+ reportUpdate)
+                        .put("/report?" + reportUpdate)
                         .content(jsonObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -200,9 +199,8 @@ class ReportControllerTest {
     }
 
 
-
     @Test
-    void checkReportCorrect() throws Exception{
+    void checkReportCorrect() throws Exception {
         long id = 20L;
         String description = "test";
         boolean isNotChecked = false;
@@ -219,7 +217,6 @@ class ReportControllerTest {
         reportUpdate.setChecked(isChecked);
 
 
-
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", id);
         jsonObject.put("description", description);
@@ -228,7 +225,7 @@ class ReportControllerTest {
         when(reportRepository.save(any(Report.class))).thenReturn(reportUpdate);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/report/check?"+ reportUpdate)
+                        .put("/report/check?" + reportUpdate)
                         .content(jsonObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

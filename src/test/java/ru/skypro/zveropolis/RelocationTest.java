@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.skypro.zveropolis.relocation.Relocation;
 import ru.skypro.zveropolis.relocation.State;
 import ru.skypro.zveropolis.repository.SubscriberRepository;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 

@@ -11,7 +11,7 @@ import ru.skypro.zveropolis.service.ReportService;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/report")
+@RequestMapping("/report")
 public class ReportController {
 
     @Autowired
@@ -19,12 +19,15 @@ public class ReportController {
 
     @Autowired
     private PetService petService;
+
     @Operation(
             summary = "Добавление отчета вручную волонтером"
 
     )
     @PostMapping()
-    public void addReport(@RequestBody Report report) {reportService.addReport(report);}
+    public void addReport(@RequestBody Report report) {
+        reportService.addReport(report);
+    }
 
     @Operation(
             summary = "Получить все отчеты"
@@ -39,31 +42,34 @@ public class ReportController {
         }
         return ResponseEntity.ok(reports);
     }
+
     @Operation(
             summary = "Получить отчет по питомцу"
 
     )
     @GetMapping("/getReportsByPetId/{id}")
-    public ResponseEntity<List <Report>> getReports( @PathVariable long id) {
+    public ResponseEntity<List<Report>> getReports(@PathVariable long id) {
         List<Report> report = reportService.getReportsByPet(id);
         if (report.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(report);
     }
+
     @Operation(
             summary = "Получить отчеты на проверку"
 
     )
     @GetMapping("/getReportsForCheck")
-    public ResponseEntity<List <Report>> getReportsForCheck(boolean isChecked) {
-       List<Report> report = reportService.getAlLReportsForCheck(isChecked);
+    public ResponseEntity<List<Report>> getReportsForCheck(boolean isChecked) {
+        List<Report> report = reportService.getAlLReportsForCheck(isChecked);
         if (report.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(report);
     }
-    @Operation (
+
+    @Operation(
             summary = "Коррекция информации в отчете волонтером"
     )
 
@@ -76,7 +82,8 @@ public class ReportController {
         return ResponseEntity.ok(reportToUpdate);
 
     }
-    @Operation (
+
+    @Operation(
             summary = "Проверка отчета волонтером"
     )
 

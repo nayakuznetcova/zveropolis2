@@ -20,6 +20,7 @@ import java.util.List;
 class SchedulerConfig extends ReportCatMenu {
     private UserService userService;
     private TelegramBotSendMessage telegramBotSendMessage;
+
     public SchedulerConfig(SubscriberRepository subscriberRepository, UserService userService, Relocation relocation, TelegramBotSendMessage telegramBotSendMessage, ReportRepository reportRepository, PhotoRepository photoRepository, PetRepository petRepository) {
         super(subscriberRepository, relocation, telegramBotSendMessage, reportRepository, photoRepository, petRepository);
     }

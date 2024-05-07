@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-public class CallVolunteerMenu implements State{
+public class CallVolunteerMenu implements State {
     private final UserRepository userRepository;
     private final TelegramBotSendMessage telegramBotSendMessage;
     private final SubscriberRepository subscriberRepository;
     private final Relocation relocation;
     private final String CALL_VOLUNTEER = "CALL_VOLUNTEER";
 
-    public CallVolunteerMenu(UserRepository userRepository, @Lazy TelegramBotSendMessage telegramBotSendMessage, SubscriberRepository subscriberRepository,@Lazy Relocation relocation) {
+    public CallVolunteerMenu(UserRepository userRepository, @Lazy TelegramBotSendMessage telegramBotSendMessage, SubscriberRepository subscriberRepository, @Lazy Relocation relocation) {
         this.userRepository = userRepository;
         this.telegramBotSendMessage = telegramBotSendMessage;
         this.subscriberRepository = subscriberRepository;
@@ -32,13 +32,13 @@ public class CallVolunteerMenu implements State{
 
     @Override
     public void execute(Update update) {
-        if(update.hasMessage()){
+        if (update.hasMessage()) {
             Long chatId = update.getMessage().getChatId();
             sendMessageAtText(update);
             telegramBotSendMessage.sendMessage(createSendMessageNotKeyboard("С вами свяжется волонтёр в ближайшее время", chatId));
             changeState(update, chatId);
             notificationAtVolunteer(update.getMessage().getText());
-        }else if (update.hasCallbackQuery()){
+        } else if (update.hasCallbackQuery()) {
             sendMessageAtCallback(update);
         }
     }
@@ -51,25 +51,25 @@ public class CallVolunteerMenu implements State{
     public void sendMessageAtCallback(Update update) {
         Long chatId = update.getCallbackQuery().getMessage().getChatId();
         String data = update.getCallbackQuery().getData();
-        switch (data){
-            case CALL_VOLUNTEER ->{
+        switch (data) {
+            case CALL_VOLUNTEER -> {
                 checkUserName(update);
             }
         }
     }
 
-    public Message checkUserName(Update update){
+    public Message checkUserName(Update update) {
         Long chatId = update.getCallbackQuery().getMessage().getChatId();
         Users user = userRepository.findById(chatId).get();
         String username = user.getUsername();
         String phoneNumber = user.getPhoneNumber();
-        if (username != null){
+        if (username != null) {
             changeState(update, chatId);
-            return notificationAtVolunteer("@" +username);
-        }else if (phoneNumber != null){
+            return notificationAtVolunteer("@" + username);
+        } else if (phoneNumber != null) {
             changeState(update, chatId);
             return notificationAtVolunteer(phoneNumber);
-        }else {
+        } else {
             SendMessage sendMessageNotKeyboard = createSendMessageNotKeyboard("Введите номер телефона", chatId);
             return telegramBotSendMessage.sendMessage(sendMessageNotKeyboard);
         }
@@ -82,14 +82,14 @@ public class CallVolunteerMenu implements State{
         state.execute(update);
     }
 
-    private SendMessage createSendMessageNotKeyboard(String text, Long chatId){
+    private SendMessage createSendMessageNotKeyboard(String text, Long chatId) {
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);
         return createSendMessage;
     }
 
-    private SendMessage createSendMessageWithKeyboard(String text, Long chatId){
+    private SendMessage createSendMessageWithKeyboard(String text, Long chatId) {
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);
@@ -97,14 +97,15 @@ public class CallVolunteerMenu implements State{
         return createSendMessage;
     }
 
-    private Users sendMessageAtText(Update update){
+    private Users sendMessageAtText(Update update) {
         String text = update.getMessage().getText();
         Long chatId = update.getMessage().getChatId();
         Users user = userRepository.findById(chatId).get();
         user.setPhoneNumber(text);
         return userRepository.save(user);
     }
-    private Message notificationAtVolunteer(String text){
+
+    private Message notificationAtVolunteer(String text) {
         List<Users> volunteers = userRepository.getUsersByVolunteerIsTrue();
         Random random = new Random();
         int i = random.nextInt(volunteers.size());

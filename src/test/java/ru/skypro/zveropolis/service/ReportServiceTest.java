@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @ExtendWith(MockitoExtension.class)
 class ReportServiceTest {
     @InjectMocks
@@ -27,7 +28,8 @@ class ReportServiceTest {
 
     Pet PET_1 = new Pet();
 
-    List <Report> REPORTS = List.of(REPORT_1);
+    List<Report> REPORTS = List.of(REPORT_1);
+
     @BeforeEach
     void setUp() {
         REPORT_1.setId(1L);
@@ -35,6 +37,7 @@ class ReportServiceTest {
         REPORT_1.setPet(PET_1);
         REPORT_1.setChecked(false);
     }
+
     @Test
     void addReportCorrect() {
         Mockito.when(repository.save(REPORT_1)).thenReturn(REPORT_1);
@@ -57,7 +60,7 @@ class ReportServiceTest {
         Mockito.when(repository.findByPetId(PET_1.getId())).thenReturn(REPORTS);
         out.getReportsByPet(PET_1.getId());
         Mockito.verify(repository, Mockito.times(1)).findByPetId(PET_1.getId());
-        assertEquals(REPORTS,   out.getReportsByPet(PET_1.getId()));
+        assertEquals(REPORTS, out.getReportsByPet(PET_1.getId()));
     }
 
     @Test

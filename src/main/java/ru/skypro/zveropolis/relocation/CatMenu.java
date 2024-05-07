@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CatMenu implements State{
+public class CatMenu implements State {
     private final TelegramBotSendMessage telegramBotSendMessage;
     private final ShelterRepository shelterRepository;
     private final SubscriberRepository subscriberRepository;
@@ -32,9 +32,6 @@ public class CatMenu implements State{
     private final String BACK_CAT_REPORT = "BACK_CAT_REPORT";
 
 
-
-
-
     public CatMenu(@Lazy TelegramBotSendMessage telegramBotSendMessage, ShelterRepository shelterRepository, SubscriberRepository subscriberRepository, @Lazy Relocation relocation) {
         this.telegramBotSendMessage = telegramBotSendMessage;
         this.shelterRepository = shelterRepository;
@@ -44,7 +41,7 @@ public class CatMenu implements State{
 
     @Override
     public void execute(Update update) {
-        if(update.hasCallbackQuery()){
+        if (update.hasCallbackQuery()) {
             sendMessageAtCallback(update);
         } else if (update.hasMessage() && update.getMessage().hasText()) {
         }
@@ -92,8 +89,6 @@ public class CatMenu implements State{
         buttonRow7.add(back);
 
 
-
-
         button.add(buttonRow1);
         button.add(buttonRow2);
         button.add(buttonRow3);
@@ -106,7 +101,7 @@ public class CatMenu implements State{
         return inlineKeyboardMarkup;
     }
 
-    private SendMessage createSendMessage(String text, Long chatId){
+    private SendMessage createSendMessage(String text, Long chatId) {
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);
@@ -158,7 +153,7 @@ public class CatMenu implements State{
                 State state = relocation.getState(chatId);
                 state.execute(update);
             }
-            case BACK_CAT_REPORT ->{
+            case BACK_CAT_REPORT -> {
                 telegramBotSendMessage.sendMessage(createSendMessage("Вы вернулись в меню приюта для кошек", chatId));
             }
         }

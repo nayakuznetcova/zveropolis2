@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class InfoCatShelterMenu implements State{
+public class InfoCatShelterMenu implements State {
     private final TelegramBotSendMessage telegramBotSendMessage;
     private final ShelterRepository shelterRepository;
     private final SubscriberRepository subscriberRepository;
@@ -31,7 +31,7 @@ public class InfoCatShelterMenu implements State{
     private final String BACK_CAT_REPORT = "BACK_CAT_REPORT";
     private final String HOW_TAKE_PET = "HOW_TAKE_PET";
 
-    public InfoCatShelterMenu(@Lazy TelegramBotSendMessage telegramBotSendMessage, ShelterRepository shelterRepository, SubscriberRepository subscriberRepository,@Lazy Relocation relocation) {
+    public InfoCatShelterMenu(@Lazy TelegramBotSendMessage telegramBotSendMessage, ShelterRepository shelterRepository, SubscriberRepository subscriberRepository, @Lazy Relocation relocation) {
         this.telegramBotSendMessage = telegramBotSendMessage;
         this.shelterRepository = shelterRepository;
         this.subscriberRepository = subscriberRepository;
@@ -40,7 +40,7 @@ public class InfoCatShelterMenu implements State{
 
     @Override
     public void execute(Update update) {
-        if(update.hasCallbackQuery()){
+        if (update.hasCallbackQuery()) {
             sendMessageAtCallback(update);
         } else if (update.hasMessage() && update.getMessage().hasText()) {
         }
@@ -104,7 +104,7 @@ public class InfoCatShelterMenu implements State{
         String data = update.getCallbackQuery().getData();
         Shelter firstByTypeOfAnimal = shelterRepository.findFirstByTypeOfAnimal(TypeOfAnimal.CAT);
         switch (data) {
-            case HOW_TAKE_PET ->{
+            case HOW_TAKE_PET -> {
                 telegramBotSendMessage.sendMessage(createSendMessage("Какой вопрос вас интересует?", chatId));
             }
             case DATING_RULES -> {
@@ -139,7 +139,7 @@ public class InfoCatShelterMenu implements State{
         }
     }
 
-    private SendMessage createSendMessage(String text, Long chatId){
+    private SendMessage createSendMessage(String text, Long chatId) {
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);

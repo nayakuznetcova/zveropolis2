@@ -66,8 +66,6 @@ class PetControllerTest {
         petTest.setName(name);
 
 
-
-
         when(petRepository.save(any(Pet.class))).thenReturn(petTest);
 
         mockMvc.perform(MockMvcRequestBuilders

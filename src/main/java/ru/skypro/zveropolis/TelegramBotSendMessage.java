@@ -28,7 +28,8 @@ public class TelegramBotSendMessage {
             throw new RuntimeException(e);
         }
     }
-    public File sendFile(GetFile getFile, String nameFile){
+
+    public File sendFile(GetFile getFile, String nameFile) {
         try {
             org.telegram.telegrambots.meta.api.objects.File file = telegramBotInit.execute(getFile);
             return telegramBotInit.downloadFile(file, new File(pathFile + nameFile + ".png"));

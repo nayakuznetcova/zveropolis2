@@ -9,11 +9,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PetRepository extends JpaRepository<Pet,Long> {
+public interface PetRepository extends JpaRepository<Pet, Long> {
 
     Optional<Pet> findById(long id);
+
     List<Pet> findAllByIsAdoptedAndTypeOfAnimal(boolean isAdopted, TypeOfAnimal typeOfAnimal);
+
     List<Pet> findAllByTypeOfAnimal(TypeOfAnimal typeOfAnimal);
+
     Pet findByUsersChatId(long chatId);
 
 }

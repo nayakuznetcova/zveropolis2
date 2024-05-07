@@ -60,7 +60,7 @@ public class PetController {
         return ResponseEntity.ok(petService.getPetById(id));
     }
 
-    @Operation (
+    @Operation(
             summary = "Коррекция информации о питомце"
     )
 
@@ -73,12 +73,13 @@ public class PetController {
         return ResponseEntity.ok(petToUpdate);
 
     }
+
     @Operation(
             summary = "Удаление данных о питомце"
     )
 
-    @DeleteMapping ("/deletePet/{id}")
-    public  ResponseEntity <Void> deletePet (@PathVariable long id) {
+    @DeleteMapping("/deletePet/{id}")
+    public ResponseEntity<Void> deletePet(@PathVariable long id) {
         petService.deletePet(id);
         return ResponseEntity.ok().build();
     }
@@ -94,6 +95,7 @@ public class PetController {
         }
         return ResponseEntity.ok(petService.getListOf(typeOfAnimal));
     }
+
     @Operation(
 
             summary = "Получение списка питомцев под опекой"
@@ -101,32 +103,34 @@ public class PetController {
 
     @GetMapping("/getListOfAdopted/{typeOfAnimal}")
     public ResponseEntity<List<Pet>> getListOfAdoptedPets(boolean isAdopted, @PathVariable TypeOfAnimal typeOfAnimal) {
-        if (petService.getPetsAdopted(isAdopted,typeOfAnimal).isEmpty()) {
+        if (petService.getPetsAdopted(isAdopted, typeOfAnimal).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(petService.getPetsAdopted(isAdopted,typeOfAnimal));
+        return ResponseEntity.ok(petService.getPetsAdopted(isAdopted, typeOfAnimal));
     }
+
     @Operation(
             summary = "Получение списка всех питомцев"
     )
 
     @GetMapping("/getListOfAllPets")
-    public ResponseEntity <List<Pet>> getListOfAllPets () {
+    public ResponseEntity<List<Pet>> getListOfAllPets() {
         if (petService.getAll().isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(petService.getAll());
     }
+
     @Operation(
             summary = "Отправить животное под опеку"
     )
-    @PutMapping ("/adoptPet/{id}")
-    public ResponseEntity <Pet> adoptPet (@PathVariable long id, @RequestBody Users user) {
+    @PutMapping("/adoptPet/{id}")
+    public ResponseEntity<Pet> adoptPet(@PathVariable long id, @RequestBody Users user) {
 
-        if (petService.petToAdopt(id,user)==null) {
+        if (petService.petToAdopt(id, user) == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(petService.petToAdopt(id,user));
+        return ResponseEntity.ok(petService.petToAdopt(id, user));
     }
 
 }

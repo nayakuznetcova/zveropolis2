@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.skypro.zveropolis.model.Pet;
 import ru.skypro.zveropolis.model.Report;
 import ru.skypro.zveropolis.repository.ReportRepository;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -14,27 +15,32 @@ import java.util.Optional;
 public class ReportService {
     @Autowired
     private final ReportRepository reportRepository;
+
     /**
      * Позволяет добавить отчет вручную волонтером
      */
-    public void addReport( Report report) {
+    public void addReport(Report report) {
         reportRepository.save(report);
     }
 
     /**
      * Позволяет получить отчет по идентификатору
+     *
      * @return отчет
      */
     public Optional<Report> getReportById(long id) {
         return reportRepository.findById(id);
     }
+
     /**
      * Позволяет получить отчет по питомцу
+     *
      * @return отчет
      */
-    public List <Report> getReportsByPet(long id) {
-        return reportRepository.findByPetId (id);
+    public List<Report> getReportsByPet(long id) {
+        return reportRepository.findByPetId(id);
     }
+
     /**
      * Позволяет обновить информацию в отчете
      *
@@ -65,6 +71,7 @@ public class ReportService {
     public List<Report> getAll() {
         return reportRepository.findAll();
     }
+
     /**
      * Позволяет изменить статус отчета после проверки волонтером
      *
@@ -74,6 +81,7 @@ public class ReportService {
         report.setChecked(true);
         return reportRepository.save(report);
     }
+
     /**
      * Позволяет получить отчеты для проверки волонтером
      *
@@ -83,6 +91,6 @@ public class ReportService {
         return reportRepository.findAllByIsChecked(isChecked);
     }
 
-    }
+}
 
 

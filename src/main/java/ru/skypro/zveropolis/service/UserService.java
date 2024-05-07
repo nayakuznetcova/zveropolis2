@@ -34,7 +34,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public List<Users> getVolonteers(){
+    public List<Users> getVolonteers() {
         return userRepository.getUsersByVolunteerIsTrue();
     }
 }

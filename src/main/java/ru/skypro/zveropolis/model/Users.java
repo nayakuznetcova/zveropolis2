@@ -22,11 +22,12 @@ public class Users {
 
     public Users(SendMessage sendMessage) {
     }
-    public Users(){
+
+    public Users() {
 
     }
 
-    //    @OneToMany
+//    @OneToMany
 //    @JoinColumn(name = "pet_id")
 //    private Pet pet;
 }

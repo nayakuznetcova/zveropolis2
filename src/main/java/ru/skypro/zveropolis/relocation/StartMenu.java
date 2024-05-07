@@ -25,7 +25,7 @@ public class StartMenu implements State {
     private final String BACK = "BACK";
     private final String CALL_VOLUNTEER = "CALL_VOLUNTEER";
 
-    public StartMenu(@Lazy TelegramBotSendMessage telegramBotSendMessage, SubscriberRepository subscriberRepository,@Lazy Relocation relocation) {
+    public StartMenu(@Lazy TelegramBotSendMessage telegramBotSendMessage, SubscriberRepository subscriberRepository, @Lazy Relocation relocation) {
         this.telegramBotSendMessage = telegramBotSendMessage;
         this.subscriberRepository = subscriberRepository;
         this.relocation = relocation;
@@ -33,7 +33,7 @@ public class StartMenu implements State {
 
     @Override
     public void execute(Update update) {
-        if(update.hasCallbackQuery()){
+        if (update.hasCallbackQuery()) {
             sendMessageAtCallback(update);
         } else if (update.hasMessage() && update.getMessage().hasText() && update.getMessage().getText().equals("/start")) {
             sendMessageAtText(update);
@@ -64,7 +64,8 @@ public class StartMenu implements State {
         inlineKeyboardMarkup.setKeyboard(button);
         return inlineKeyboardMarkup;
     }
-    private SendMessage createSendMessage(String text, Long chatId){
+
+    private SendMessage createSendMessage(String text, Long chatId) {
         SendMessage createSendMessage = new SendMessage();
         createSendMessage.setText(text);
         createSendMessage.setChatId(chatId);
@@ -72,7 +73,7 @@ public class StartMenu implements State {
         return createSendMessage;
     }
 
-    public Message sendMessageAtText(Update update){
+    public Message sendMessageAtText(Update update) {
         Long chatId = update.getMessage().getChatId();
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -81,10 +82,10 @@ public class StartMenu implements State {
         return telegramBotSendMessage.sendMessage(sendMessage);
     }
 
-    public void sendMessageAtCallback(Update update){
+    public void sendMessageAtCallback(Update update) {
         Long chatId = update.getCallbackQuery().getMessage().getChatId();
         String data = update.getCallbackQuery().getData();
-        switch (data){
+        switch (data) {
             case CAT_SHELTER -> {
                 subscriberRepository.putStateBot(chatId, StateBot.CAT_MENU);
                 State state = relocation.getState(chatId);

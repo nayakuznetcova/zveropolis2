@@ -96,7 +96,7 @@ class UserControllerTest {
     }
 
     @Test
-    void editVolunteerInfoCorrect() throws Exception{
+    void editVolunteerInfoCorrect() throws Exception {
         long id = 20L;
         String firstName = "test";
         boolean isVolunteer = true;
@@ -142,8 +142,8 @@ class UserControllerTest {
         userTest.setVolunteer(isVolunteer);
 
 
-       when(userRepository.save(any(Users.class))).thenReturn(userTest);
-       when(userService.getUserInfo(id)).thenReturn(Optional.of(userTest));
+        when(userRepository.save(any(Users.class))).thenReturn(userTest);
+        when(userService.getUserInfo(id)).thenReturn(Optional.of(userTest));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/user/" + id)
