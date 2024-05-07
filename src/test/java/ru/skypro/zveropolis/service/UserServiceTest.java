@@ -51,7 +51,7 @@ class UserServiceTest {
     }
 
     @Test
-    void editUser() {
+    void editUserCorrect() {
         Mockito.when(repository.save(USER_1)).thenReturn(USER_1);
         out.editUser(USER_1);
         Mockito.verify(repository, Mockito.times(1)).save(USER_1);
@@ -59,7 +59,7 @@ class UserServiceTest {
     }
 
     @Test
-    void deleteUser() {
+    void deleteUserCorrect() {
         long id = 2L;
         Mockito.doNothing().when(repository).deleteById(id);
         out.deleteUser(id);

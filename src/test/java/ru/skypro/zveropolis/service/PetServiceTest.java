@@ -9,12 +9,14 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.skypro.zveropolis.model.Pet;
 import ru.skypro.zveropolis.model.TypeOfAnimal;
+import ru.skypro.zveropolis.model.Users;
 import ru.skypro.zveropolis.repository.PetRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 class PetServiceTest {
@@ -31,14 +33,18 @@ class PetServiceTest {
 
     List<Pet> CATS = List.of(PET_1);
 
+    Users USER_1 = new Users();
+
     @BeforeEach
     void setUp() {
         PET_1.setId(1L);
         PET_1.setName("GOLUM");
         PET_1.setAdopted(true);
+        PET_1.setUsers(USER_1);
         PET_1.setTypeOfAnimal(TypeOfAnimal.CAT);
         PET_2.setId(2L);
         PET_2.setName("SMEAGOL");
+        USER_1.setUsername("vasia");
     }
 
     @Test
@@ -95,5 +101,14 @@ class PetServiceTest {
         out.getListOf(TypeOfAnimal.CAT);
         Mockito.verify(repository, Mockito.times(1)).findAllByTypeOfAnimal(TypeOfAnimal.CAT);
         assertEquals(CATS, out.getListOf(TypeOfAnimal.CAT));
+    }
+
+    @Test
+    void adoptPetCorrect() {
+        Mockito.when(repository.save(any(Pet.class))).thenReturn(PET_1);
+        Mockito.when(repository.findById(1L)).thenReturn(Optional.ofNullable(PET_1));
+        out.petToAdopt(1L, USER_1);
+        Mockito.verify(repository, Mockito.times(1)).save(PET_1);
+        assertEquals(PET_1,out.petToAdopt(1L,USER_1));
     }
 }

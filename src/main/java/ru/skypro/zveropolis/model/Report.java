@@ -11,7 +11,8 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-    //    private String healthAndAddiction;
+    private boolean isChecked;
+//    private String healthAndAddiction;
 //    private String behavior;
 //    @OneToMany
 //    @JoinColumn(name = "user_id")

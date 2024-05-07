@@ -34,6 +34,7 @@ public class CatMenu implements State{
 
 
 
+
     public CatMenu(@Lazy TelegramBotSendMessage telegramBotSendMessage, ShelterRepository shelterRepository, SubscriberRepository subscriberRepository, @Lazy Relocation relocation) {
         this.telegramBotSendMessage = telegramBotSendMessage;
         this.shelterRepository = shelterRepository;
@@ -89,6 +90,9 @@ public class CatMenu implements State{
         InlineKeyboardButton back = new InlineKeyboardButton("Назад");
         back.setCallbackData(BACK);
         buttonRow7.add(back);
+
+
+
 
         button.add(buttonRow1);
         button.add(buttonRow2);

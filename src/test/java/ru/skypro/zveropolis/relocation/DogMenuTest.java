@@ -23,14 +23,12 @@ import ru.skypro.zveropolis.repository.SubscriberRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-
 @ExtendWith(MockitoExtension.class)
-class CatMenuTest {
+class DogMenuTest {
     @Mock
     private TelegramBotSendMessage telegramBotSendMessage;
     @Mock
@@ -41,7 +39,7 @@ class CatMenuTest {
     private Relocation relocation;
 
     @InjectMocks
-    private CatMenu catMenu;
+    private DogMenu dogMenu;
 
     private final String INFORMATION_ABOUT_SHELTER = "INFORMATION_ABOUT_SHELTER";
     private final String HOW_TAKE_PET = "HOW_TAKE_PET";
@@ -60,13 +58,13 @@ class CatMenuTest {
         Message message = new Message();
         message.setChat(chat);
         callbackQuery.setMessage(message);
-        callbackQuery.setData("CAT_SHELTER");
+        callbackQuery.setData("DOG_SHELTER");
         update.setCallbackQuery(callbackQuery);
         Shelter shelter = new Shelter();
         shelter.setGreeting("Вас приветствует приют Зверополис. Пожалуйста выберите интересующее Вас действие:");
-        when(shelterRepository.findFirstByTypeOfAnimal(eq(TypeOfAnimal.CAT))).thenReturn(shelter);
+        when(shelterRepository.findFirstByTypeOfAnimal(eq(TypeOfAnimal.DOG))).thenReturn(shelter);
 
-        catMenu.execute(update);
+        dogMenu.execute(update);
 
         ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
 
@@ -92,9 +90,9 @@ class CatMenuTest {
         update.setCallbackQuery(callbackQuery);
         Shelter shelter = new Shelter();
         shelter.setInfo("Тут типо о местоположении");
-        when(shelterRepository.findFirstByTypeOfAnimal(eq(TypeOfAnimal.CAT))).thenReturn(shelter);
+        when(shelterRepository.findFirstByTypeOfAnimal(eq(TypeOfAnimal.DOG))).thenReturn(shelter);
 
-        catMenu.execute(update);
+        dogMenu.execute(update);
 
         ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
 
@@ -120,9 +118,9 @@ class CatMenuTest {
         update.setCallbackQuery(callbackQuery);
         Shelter shelter = new Shelter();
         shelter.setDatingRules("А здесь про правила как взять животное");
-        when(shelterRepository.findFirstByTypeOfAnimal(eq(TypeOfAnimal.CAT))).thenReturn(shelter);
+        when(shelterRepository.findFirstByTypeOfAnimal(eq(TypeOfAnimal.DOG))).thenReturn(shelter);
 
-        catMenu.execute(update);
+        dogMenu.execute(update);
 
         ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
 
@@ -145,7 +143,7 @@ class CatMenuTest {
         List<InlineKeyboardButton> buttonRow4 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow5 = new ArrayList<>();
 
-        InlineKeyboardButton informationAboutShelter = new InlineKeyboardButton("Информация о приюте для кошек");
+        InlineKeyboardButton informationAboutShelter = new InlineKeyboardButton("Информация о приюте для собак");
         informationAboutShelter.setCallbackData(INFORMATION_ABOUT_SHELTER);
         buttonRow1.add(informationAboutShelter);
 
@@ -174,7 +172,7 @@ class CatMenuTest {
         inlineKeyboardMarkupExp.setKeyboard(buttonsExp);
 
 
-        assertEquals(catMenu.createInlineKeyboardMarkup(), inlineKeyboardMarkupExp);
+        assertEquals(dogMenu.createInlineKeyboardMarkup(), inlineKeyboardMarkupExp);
         assertEquals(buttonRow1.get(0).getCallbackData(), INFORMATION_ABOUT_SHELTER);
         assertEquals(buttonRow2.get(0).getCallbackData(), HOW_TAKE_PET);
         assertEquals(buttonRow3.get(0).getCallbackData(), SEND_REPORT);

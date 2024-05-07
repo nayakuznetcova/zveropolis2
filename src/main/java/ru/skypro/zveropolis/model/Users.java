@@ -1,13 +1,16 @@
 package ru.skypro.zveropolis.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 //@Table(schema = "users")
 public class Users {
     @Id
@@ -25,5 +28,5 @@ public class Users {
 
     //    @OneToMany
 //    @JoinColumn(name = "pet_id")
-//    private List<Pet> pet;
+//    private Pet pet;
 }

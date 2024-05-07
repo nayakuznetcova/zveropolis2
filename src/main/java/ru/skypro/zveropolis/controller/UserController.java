@@ -1,14 +1,20 @@
 package ru.skypro.zveropolis.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.skypro.zveropolis.model.Pet;
+import ru.skypro.zveropolis.model.TypeOfAnimal;
 import ru.skypro.zveropolis.model.Users;
+import ru.skypro.zveropolis.service.PetService;
 import ru.skypro.zveropolis.service.UserService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,23 +24,33 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     @Operation(
             summary = "Добавление волонтера"
     )
+
     @ApiResponses(value = {
 
             @ApiResponse(
+
+                    responseCode = "200",
+                    description = "Волонтер успешно добавлен"
+
+            ),
+            @ApiResponse(
+
                     responseCode = "400",
                     description = "Пользователь не является волонтером"
             )
     })
     @PostMapping
-    public ResponseEntity<Users> createVolonteer(@RequestBody Users user) {
+    public ResponseEntity<Users> createVolunteer(@RequestBody Users user) {
         if (user.isVolunteer()) {
             return ResponseEntity.ok(userService.createUser(user));
         }
         return ResponseEntity.badRequest().build();
     }
+
 
     @Operation(
             summary = "Получение информации о волонтере"
@@ -48,10 +64,10 @@ public class UserController {
     })
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Users>> getVolonteerInfo(@PathVariable long id) {
-        Optional<Users> volonteerToFind = userService.getUserInfo(id);
-        if (volonteerToFind.get().isVolunteer()) {
-            return ResponseEntity.ok(volonteerToFind);
+    public ResponseEntity<Optional<Users>> getVolunteerInfo(@PathVariable long id) {
+        Optional<Users> volunteerToFind = userService.getUserInfo(id);
+        if (volunteerToFind.get().isVolunteer()) {
+            return ResponseEntity.ok(volunteerToFind);
         }
 
         return ResponseEntity.notFound().build();
@@ -69,10 +85,10 @@ public class UserController {
     })
 
     @PutMapping
-    public ResponseEntity<Users> editVolonteerInfo(@RequestBody Users user) {
-        Users volonteerToEdit = userService.editUser(user);
-        if (volonteerToEdit.isVolunteer()) {
-            return ResponseEntity.ok(volonteerToEdit);
+    public ResponseEntity<Users> editVolunteerInfo(@RequestBody Users user) {
+        Users volunteerToEdit = userService.editUser(user);
+        if (volunteerToEdit.isVolunteer()) {
+            return ResponseEntity.ok(volunteerToEdit);
         }
         return ResponseEntity.badRequest().build();
     }
@@ -89,9 +105,9 @@ public class UserController {
     })
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteVolonteer(@PathVariable long id) {
-        Optional<Users> volonteerToDelete = userService.getUserInfo(id);
-        if (volonteerToDelete.get().isVolunteer()) {
+    public ResponseEntity <Void> deleteVolunteer(@PathVariable long id) {
+        Optional<Users> volunteerToDelete = userService.getUserInfo(id);
+        if (volunteerToDelete.get().isVolunteer()) {
             userService.deleteUser(id);
             return ResponseEntity.ok().build();
         }

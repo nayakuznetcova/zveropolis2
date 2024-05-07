@@ -1,16 +1,22 @@
 package ru.skypro.zveropolis.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.skypro.zveropolis.exception.PetAlreadyExistsException;
 import ru.skypro.zveropolis.model.Pet;
 import ru.skypro.zveropolis.model.TypeOfAnimal;
+import ru.skypro.zveropolis.model.Users;
 import ru.skypro.zveropolis.service.PetService;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -21,6 +27,7 @@ public class PetController {
 
     @Operation(
             summary = "Добавление питомца в приют"
+
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -34,6 +41,9 @@ public class PetController {
     })
     @PostMapping("/addPet")
     public void addPet(@RequestBody Pet pet) {
+        if (petService.getPetById(pet.getId()).isPresent()) {
+            throw new PetAlreadyExistsException("Такой питомец уже существует");
+        }
         petService.addPet(pet);
     }
 
@@ -44,7 +54,7 @@ public class PetController {
     @GetMapping("/getInfoPet/{id}")
     public ResponseEntity<Optional<Pet>> getPet(@PathVariable long id) {
         Optional<Pet> petToFind = petService.getPetById(id);
-        if (petToFind == null) {
+        if (petToFind.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(petService.getPetById(id));
@@ -91,8 +101,8 @@ public class PetController {
 
     @GetMapping("/getListOfAdopted/{typeOfAnimal}")
     public ResponseEntity<List<Pet>> getListOfAdoptedPets(boolean isAdopted, @PathVariable TypeOfAnimal typeOfAnimal) {
-        if (typeOfAnimal == null) {
-            return ResponseEntity.badRequest().build();
+        if (petService.getPetsAdopted(isAdopted,typeOfAnimal).isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(petService.getPetsAdopted(isAdopted,typeOfAnimal));
     }
@@ -107,4 +117,16 @@ public class PetController {
         }
         return ResponseEntity.ok(petService.getAll());
     }
+    @Operation(
+            summary = "Отправить животное под опеку"
+    )
+    @PutMapping ("/adoptPet/{id}")
+    public ResponseEntity <Pet> adoptPet (@PathVariable long id, @RequestBody Users user) {
+
+        if (petService.petToAdopt(id,user)==null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(petService.petToAdopt(id,user));
+    }
+
 }
