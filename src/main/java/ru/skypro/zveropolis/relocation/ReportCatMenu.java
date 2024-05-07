@@ -71,7 +71,7 @@ public class ReportCatMenu implements State {
             report.setPet(pet);
             Report saveReport = reportRepository.save(report);
             photo.setReport(saveReport);
-            SendMessage sendMessageNotKeyboard = createSendMessageNotKeyboard("Отчёт сохранен", chatId);
+            SendMessage sendMessageNotKeyboard = createSendMessageNotKeyboard("Отчёт сохранен. Пожалуйста, присылайте отчёт ежедневно до 21:00", chatId);
             telegramBotSendMessage.sendMessage(sendMessageNotKeyboard);
 
             subscriberRepository.putStateBot(chatId, StateBot.START_MENU);
