@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.skypro.zveropolis.model.Users;
 import ru.skypro.zveropolis.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,8 +33,8 @@ public class UserService {
     public void deleteUser(long id) {
         userRepository.deleteById(id);
     }
+
+    public List<Users> getVolonteers(){
+        return userRepository.getUsersByVolunteerIsTrue();
+    }
 }
-
-
-
-
