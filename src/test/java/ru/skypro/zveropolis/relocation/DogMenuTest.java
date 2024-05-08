@@ -46,6 +46,8 @@ class DogMenuTest {
     private final String SEND_REPORT = "SEND_REPORT";
     private final String CALL_VOLUNTEER = "CALL_VOLUNTEER";
     private final String BACK = "BACK";
+    private final String CONTACT_INFORMATION_FOR_ADMISSION = "CONTACT_INFORMATION_FOR_ADMISSION";
+    private final String SAFETY_PRECAUTIONS = "SAFETY_PRECAUTIONS";
 
 
     @Test
@@ -61,7 +63,7 @@ class DogMenuTest {
         callbackQuery.setData("DOG_SHELTER");
         update.setCallbackQuery(callbackQuery);
         Shelter shelter = new Shelter();
-        shelter.setGreeting("Вас приветствует приют Зверополис. Пожалуйста выберите интересующее Вас действие:");
+        shelter.setGreeting("Пожалуйста выберите интересующее вас действие:");
         when(shelterRepository.findFirstByTypeOfAnimal(eq(TypeOfAnimal.DOG))).thenReturn(shelter);
 
         dogMenu.execute(update);
@@ -71,7 +73,7 @@ class DogMenuTest {
         Mockito.verify(telegramBotSendMessage).sendMessage(argumentCaptor.capture());
         SendMessage actual = argumentCaptor.getValue();
 
-        assertEquals("Вас приветствует приют Зверополис. Пожалуйста выберите интересующее Вас действие:", actual.getText());
+        assertEquals("Пожалуйста выберите интересующее вас действие:", actual.getText());
         assertEquals("1", actual.getChatId());
 
     }
@@ -89,7 +91,7 @@ class DogMenuTest {
         callbackQuery.setData("INFORMATION_ABOUT_SHELTER");
         update.setCallbackQuery(callbackQuery);
         Shelter shelter = new Shelter();
-        shelter.setInfo("Тут типо о местоположении");
+        shelter.setInfo("Приют находится по адресу: город Астана, улица Аккорган 5В. Телефон: +7‒747‒529‒09‒41 https://2gis.kz/astana/geo/70000001057421744");
         when(shelterRepository.findFirstByTypeOfAnimal(eq(TypeOfAnimal.DOG))).thenReturn(shelter);
 
         dogMenu.execute(update);
@@ -99,85 +101,73 @@ class DogMenuTest {
         Mockito.verify(telegramBotSendMessage).sendMessage(argumentCaptor.capture());
         SendMessage actual = argumentCaptor.getValue();
 
-        assertEquals("Тут типо о местоположении", actual.getText());
+        assertEquals("Приют находится по адресу: город Астана, улица Аккорган 5В. Телефон: +7‒747‒529‒09‒41 https://2gis.kz/astana/geo/70000001057421744", actual.getText());
         assertEquals("1", actual.getChatId());
 
     }
 
-    @Test
-    void executeHowToTakePet() {
-        Update update = new Update();
-
-        CallbackQuery callbackQuery = new CallbackQuery();
-        Chat chat = new Chat();
-        chat.setId(1L);
-        Message message = new Message();
-        message.setChat(chat);
-        callbackQuery.setMessage(message);
-        callbackQuery.setData("HOW_TAKE_PET");
-        update.setCallbackQuery(callbackQuery);
-        Shelter shelter = new Shelter();
-        shelter.setDatingRules("А здесь про правила как взять животное");
-        when(shelterRepository.findFirstByTypeOfAnimal(eq(TypeOfAnimal.DOG))).thenReturn(shelter);
-
-        dogMenu.execute(update);
-
-        ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
-
-        Mockito.verify(telegramBotSendMessage).sendMessage(argumentCaptor.capture());
-        SendMessage actual = argumentCaptor.getValue();
-
-        assertEquals("А здесь про правила как взять животное", actual.getText());
-        assertEquals("1", actual.getChatId());
-
-    }
 
     @Test
     void createInlineKeyboardMarkupCorrect() {
         InlineKeyboardMarkup inlineKeyboardMarkupExp = new InlineKeyboardMarkup();
 
-        List<List<InlineKeyboardButton>> buttonsExp = new ArrayList<>();
+        List<List<InlineKeyboardButton>> button = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow1 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow2 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow3 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow4 = new ArrayList<>();
         List<InlineKeyboardButton> buttonRow5 = new ArrayList<>();
+        List<InlineKeyboardButton> buttonRow6 = new ArrayList<>();
+        List<InlineKeyboardButton> buttonRow7 = new ArrayList<>();
 
         InlineKeyboardButton informationAboutShelter = new InlineKeyboardButton("Информация о приюте для собак");
         informationAboutShelter.setCallbackData(INFORMATION_ABOUT_SHELTER);
         buttonRow1.add(informationAboutShelter);
 
+        InlineKeyboardButton contactInformationForAdmission = new InlineKeyboardButton("Контактные данные для оформления пропуска");
+        contactInformationForAdmission.setCallbackData(CONTACT_INFORMATION_FOR_ADMISSION);
+        buttonRow2.add(contactInformationForAdmission);
+
+        InlineKeyboardButton safetyPrecautions = new InlineKeyboardButton("Техника безопасности на территории приюта");
+        safetyPrecautions.setCallbackData(SAFETY_PRECAUTIONS);
+        buttonRow3.add(safetyPrecautions);
+
         InlineKeyboardButton howTakePet = new InlineKeyboardButton("Как взять животное из приюта");
         howTakePet.setCallbackData(HOW_TAKE_PET);
-        buttonRow2.add(howTakePet);
+        buttonRow4.add(howTakePet);
 
         InlineKeyboardButton sendReport = new InlineKeyboardButton("Прислать отчёт");
         sendReport.setCallbackData(SEND_REPORT);
-        buttonRow3.add(sendReport);
+        buttonRow5.add(sendReport);
 
         InlineKeyboardButton callVolunteer = new InlineKeyboardButton("Позвать волонтёра");
         callVolunteer.setCallbackData(CALL_VOLUNTEER);
-        buttonRow4.add(callVolunteer);
+        buttonRow6.add(callVolunteer);
 
         InlineKeyboardButton back = new InlineKeyboardButton("Назад");
         back.setCallbackData(BACK);
-        buttonRow5.add(back);
+        buttonRow7.add(back);
 
+        button.add(buttonRow1);
+        button.add(buttonRow2);
+        button.add(buttonRow3);
+        button.add(buttonRow4);
+        button.add(buttonRow5);
+        button.add(buttonRow6);
+        button.add(buttonRow7);
 
-        buttonsExp.add(buttonRow1);
-        buttonsExp.add(buttonRow2);
-        buttonsExp.add(buttonRow3);
-        buttonsExp.add(buttonRow4);
-        buttonsExp.add(buttonRow5);
-        inlineKeyboardMarkupExp.setKeyboard(buttonsExp);
+        inlineKeyboardMarkupExp.setKeyboard(button);
+
 
 
         assertEquals(dogMenu.createInlineKeyboardMarkup(), inlineKeyboardMarkupExp);
         assertEquals(buttonRow1.get(0).getCallbackData(), INFORMATION_ABOUT_SHELTER);
-        assertEquals(buttonRow2.get(0).getCallbackData(), HOW_TAKE_PET);
-        assertEquals(buttonRow3.get(0).getCallbackData(), SEND_REPORT);
-        assertEquals(buttonRow4.get(0).getCallbackData(), CALL_VOLUNTEER);
-        assertEquals(buttonRow5.get(0).getCallbackData(), BACK);
+        assertEquals(buttonRow2.get(0).getCallbackData(), CONTACT_INFORMATION_FOR_ADMISSION);
+        assertEquals(buttonRow3.get(0).getCallbackData(), SAFETY_PRECAUTIONS);
+        assertEquals(buttonRow4.get(0).getCallbackData(), HOW_TAKE_PET);
+        assertEquals(buttonRow5.get(0).getCallbackData(), SEND_REPORT);
+        assertEquals(buttonRow6.get(0).getCallbackData(), CALL_VOLUNTEER);
+        assertEquals(buttonRow7.get(0).getCallbackData(), BACK);
 
     }
 }

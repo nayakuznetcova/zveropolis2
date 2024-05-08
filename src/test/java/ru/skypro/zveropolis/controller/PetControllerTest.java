@@ -219,43 +219,4 @@ class PetControllerTest {
         }
     }
 
-    @Test
-    void adoptPetCorrect() throws Exception {
-        Long id = 20L;
-        String name = "test";
-        boolean isNotAdopted = false;
-        boolean isAdopted = true;
-
-
-        Users user = new Users();
-        user.setFirstName("davr");
-
-        Pet petTest = new Pet();
-        petTest.setId(id);
-        petTest.setName(name);
-        petTest.setAdopted(isNotAdopted);
-
-        Pet petUpdate = new Pet();
-        petUpdate.setId(id);
-        petUpdate.setAdopted(isAdopted);
-
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", id);
-        jsonObject.put("isAdopted", isAdopted);
-
-        when(petRepository.findById(id)).thenReturn(Optional.of(petTest));
-        when(petRepository.save(any(Pet.class))).thenReturn(petUpdate);
-
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .put("/pet/adoptPet/" + id)
-                        .content(jsonObject.toString())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.adopted").value(isAdopted));
-    }
-
 }

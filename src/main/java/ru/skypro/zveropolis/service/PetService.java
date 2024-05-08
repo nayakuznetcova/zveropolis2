@@ -33,7 +33,7 @@ public class PetService {
      * Позволяет получить информацию о питомце
      *
      * @param id идентификатор питомца
-     * @return Optional <Pet>
+     * @return Optional
      */
 
     public Optional<Pet> getPetById(long id) {

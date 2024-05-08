@@ -50,6 +50,23 @@ public class UserController {
         }
         return ResponseEntity.badRequest().build();
     }
+    @Operation(
+            summary = "Добавление пользователя"
+    )
+
+    @ApiResponses(value = {
+
+            @ApiResponse(
+
+                    responseCode = "200",
+                    description = "Пользователь успешно добавлен"
+
+            )
+    })
+    @PostMapping ("/postUser")
+    public void createUser(@RequestBody Users user) {
+        userService.createUser(user);
+    }
 
 
     @Operation(
