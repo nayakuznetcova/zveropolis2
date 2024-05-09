@@ -25,6 +25,7 @@ import java.util.List;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -39,6 +40,8 @@ class CatMenuTest {
     private SubscriberRepository subscriberRepository;
     @Mock
     private Relocation relocation;
+    @InjectMocks
+    private InfoCatShelterMenu infoCatShelterMenu;
 
     @InjectMocks
     private CatMenu catMenu;
@@ -119,8 +122,9 @@ class CatMenuTest {
         callbackQuery.setData("HOW_TAKE_PET");
         update.setCallbackQuery(callbackQuery);
         Shelter shelter = new Shelter();
-        shelter.setDatingRules("А здесь про правила как взять животное");
+        shelter.setDatingRules("Какой вопрос вас интересует?");
         when(shelterRepository.findFirstByTypeOfAnimal(eq(TypeOfAnimal.CAT))).thenReturn(shelter);
+        when(relocation.getState(anyLong())).thenReturn(infoCatShelterMenu);
 
         catMenu.execute(update);
 
@@ -129,7 +133,7 @@ class CatMenuTest {
         Mockito.verify(telegramBotSendMessage).sendMessage(argumentCaptor.capture());
         SendMessage actual = argumentCaptor.getValue();
 
-        assertEquals("А здесь про правила как взять животное", actual.getText());
+        assertEquals("Какой вопрос вас интересует?", actual.getText());
         assertEquals("1", actual.getChatId());
 
     }

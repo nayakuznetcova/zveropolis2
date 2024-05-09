@@ -244,7 +244,7 @@ class PetControllerTest {
         jsonObject.put("id", id);
         jsonObject.put("isAdopted", isAdopted);
 
-        when(petRepository.findById(id)).thenReturn(Optional.of(petTest));
+        when(petRepository.findById(any(Long.class))).thenReturn(Optional.of(petTest));
         when(petRepository.save(any(Pet.class))).thenReturn(petUpdate);
 
 
